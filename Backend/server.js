@@ -10,7 +10,7 @@ const normalizePort = (val) => {
     const port = parseInt(val, 10);
   
     if (isNaN(port)) {
-      return val;
+      return val; 
     }
     if (port >= 0) {
       return port;
@@ -61,5 +61,7 @@ const normalizePort = (val) => {
     Pour utiliser nodemon on lance: nodemon ./server.js localhost 3000
     ici 3000 c'est en fonction de la donnée du normalizePort
     */
+
+
   
   /*le côté server est terminé, pour l'instant ? On retourne sur app.js */

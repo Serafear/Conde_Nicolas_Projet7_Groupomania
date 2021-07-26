@@ -17,7 +17,7 @@ const normalizePort = (val) => {
     }
     return false;
   };
-  const port = normalizePort(process.env.PORT || "3000"); //ici on dit d'écouter soit le port 3000 soit quel que soit la variable d’environnement PORT
+  const port = normalizePort(process.env.PORT || "4000"); //ici on dit d'écouter soit le port 3000 soit quel que soit la variable d’environnement PORT
   app.set("port", port);
   
   //la fonction errorHandler  recherche les différentes erreurs et les gère de manière appropriée. Elle est ensuite enregistrée dans le serveur ;

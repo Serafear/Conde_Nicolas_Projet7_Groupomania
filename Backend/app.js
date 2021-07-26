@@ -15,9 +15,11 @@ const express = require("express");
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 
+
 const userRoutes = require("./routes/user");
 
 dotenv.config({ path: './config.env'});
+
 
 const app = express();
 
@@ -58,11 +60,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(express.static('../Frontend/public'));  /* Cette partie donne la capacité au serveur
-d'afficher la page html dans le dossier public
-public car, tout ce qui est dans ce fichier est destiné à la visibilité 
-des personnes qui visiterons le site 
-*/
+
 
 app.use("/api", userRoutes);
 

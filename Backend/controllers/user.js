@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 /*  on importe jwt */
 const jwt = require("jsonwebtoken");
 
-require('dotenv').config();
+
 
 
 const mysql = require("mysql");

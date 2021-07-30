@@ -1,6 +1,9 @@
 const http = require('http');
 const fs = require('fs')
 const app = require('./app');
+const {sequelize} = require ('./models');
+
+
 
 /* 7- On utilise la fonction normalizePort offerte par express
 Cette fonction s'assure que le port est soit un numéro, soit un string
@@ -51,14 +54,28 @@ const normalizePort = (val) => {
   server.on("listening", () => {
     const address = server.address();
     const bind = typeof address === "string" ? "pipe" + address : "port" + port;
-    console.log("listening on" + bind);
+    console.log("listening on " + bind);
   });
   
-  server.listen(port);
+  /* the sync is not needed when we use the authenticate method. For the authenticate we 
+  use the migration folder. We adjust the content, in my case i switched firstname and last name to 
+  nom, prenom and pasted the uuid. The we drop teh table: sequelize db:drop
+  and we recreate the table sequelize db:create, then we use authenticate
+  server.listen(port, async () =>{
+    await sequelize.sync({ force : true }) //la table user est crée ici
+    console.log('Database synced !')
+  }); */
+  server.listen(port, async () =>{
+    await sequelize.authenticate() //la table user est crée ici
+    console.log('Database synced !')
+  }); //we use then equelize db:migrate to recreate the table
+  //in the SHOW TABLES in the invite command we wiill see 2 tables : users and sequelizemeta
+  //the sequelizemeta one will store every migration that we run (SELECT * FROM SequelizeMeta)
+   // we can now confortably use nodemon
   /* pour vérifier que le serveur fonctionne on doit l'écouter soit grace
     à node server, soit en installant nodemon
     qui suivra les changements server de manière dynamique: npm install nodemon -g 
-    Pour utiliser nodemon on lance: nodemon ./server.js localhost 3000
+    Pour utiliser nodemon on lance: nodemon ./server.js localhost 4000
     ici 3000 c'est en fonction de la donnée du normalizePort
     */
 

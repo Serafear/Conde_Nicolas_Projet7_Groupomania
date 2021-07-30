@@ -12,7 +12,7 @@ npm install --save mysql
 On aura aussi besoin de .env : npm install --save dotenv
 */
 const express = require("express");
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const dotenv = require('dotenv');
 
 
@@ -22,24 +22,6 @@ dotenv.config({ path: './config.env'});
 
 
 const app = express();
-
-const dbTest = mysql.createConnection({  //on va créer la connexion avec mysql mais pour 
-    //éviter que le pass et touute info sensible soit vue, on va utiliser 
-    //config.env
-    host: process.env.DATABASE1_HOST,
-    user: process.env.DATABASE1_USER,
-    password : process.env.DATABASE1_PASSWORD,
-    database : process.env.DATABASE1
-});
-
-dbTest.connect((error) => {  //ici nous allons vérifier la connexion. 
-    //SI bien, alors message MYSQL Connected
-    if(error){
-        console.log(error)
-    } else {
-        console.log("MYSQL Connected")
-    }
-});
 
 
 

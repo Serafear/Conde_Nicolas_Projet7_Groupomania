@@ -3,21 +3,19 @@
  npm install -- save bcrypt
  */
 const bcrypt = require("bcrypt");
+//const models = require('../models')
 
 /*  on importe jwt */
 const jwt = require("jsonwebtoken");
 
 
-
+const {sequelize, User} = require ('../models');  
 
 const mysql = require("mysql");
+const { Model } = require("sequelize"); 
 
-const dbTest = mysql.createConnection({
-  host: process.env.DATABASE1_HOST,
-  user: process.env.DATABASE1_USER,
-  password: process.env.DATABASE1_PASSWORD,
-  database: process.env.DATABASE1,
-});
+
+
 
 /* pour vérifier que l'api signup post le contenu
 const api = [
@@ -34,10 +32,8 @@ const api = [
     res.json(api)
   }; */
 
-/*  On crée la logique du signup: l'inscription de nouveaux utilisateurs
- */
-const users = []  //pour tester
 
+/* version antérieure
 exports.signup = async function (req, res) {
   const password = req.body.password;
   const salt = await bcrypt.genSalt();
@@ -50,8 +46,38 @@ exports.signup = async function (req, res) {
   };
   res.json(user);
   users.push(user); //on crée le user dans users
-};
+};*/
 
+
+exports.signup = async function (req,res) {
+  const { nom, prenom, email, password } = req.body
+  try {
+    const hash = await bcrypt.hash(password, 10)
+    const user = await User.create({ nom, prenom, email, password:hash})
+    return res.status(201).json(user)
+ 
+  } catch (error){
+    console.log(error)
+    return res.status(500).json(error)
+  }
+}
+/*exports.signup = (req,res) => {
+bcrypt
+  .hash(req.body.password, 10)
+  .then((hash) => {
+    models.User.create ({
+      nom : req.body.nom,
+      prenom : req.body.prenom,
+      email : req.body.email,
+      password: hash
+    })
+    .then(() => res.status(201).json({ message: "Utilisateur crée" }))
+    .catch((error) => res.status(500).json({ error }));
+  })
+  .catch((error) => res.status(500).json({ error }));
+}*/
+
+/* without database entry
 exports.login = async function (req, res) {
   const user = users.find((user) => (user.email = req.body.email));
   if (user == null) {
@@ -68,4 +94,27 @@ exports.login = async function (req, res) {
   }
    
  
-};
+};*/
+exports.login = async function (req, res) {
+  try {
+    const user = await User.findOne({ where : {email:req.body.email} });
+    const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+    if(passwordCompare != false){
+      res.status(200).json({ //ici je lui demande de me retourner le uuid et le token
+        userId: user.uuid, //le token est crée ici 
+        token: jwt.sign(
+          { userId: user.uuid },
+          "RANDOM_TOKEN_SECRET",
+          { expiresIn: "24h" }
+        ),
+      });
+    }else if(passwordCompare == false){
+      return res.status(401).json({ error: "Utilisateur inconnu" });
+    }
+    // code if success ...
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error)
+    // code if error ...
+  }
+}

@@ -179,5 +179,3 @@ exports.deleteUser = async function(req,res){
     return res.status(500).json(error)
   }
 }
-exports.getMeInfos = async function(req,res){
-}

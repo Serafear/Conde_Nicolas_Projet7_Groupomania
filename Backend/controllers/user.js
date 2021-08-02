@@ -3,17 +3,15 @@
  npm install -- save bcrypt
  */
 const bcrypt = require("bcrypt");
-//const models = require('../models')
+
 
 /*  on importe jwt */
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config({path : './config.env'});
 
 const {sequelize, User} = require ('../models');  
 
-const mysql = require("mysql");
 const { Model } = require("sequelize"); 
-
 
 
 
@@ -95,7 +93,7 @@ exports.login = async function (req, res) {
    
  
 };*/
-exports.login = async function (req, res) {
+/*exports.login = async function (req, res) {
   try {
     const user = await User.findOne({ where : {email:req.body.email} });
     const passwordCompare = await bcrypt.compare(req.body.password, user.password);
@@ -116,5 +114,73 @@ exports.login = async function (req, res) {
     console.error(error);
     return res.status(500).json(error)
     // code if error ...
+  }
+}*/
+exports.login = async function (req, res) {
+  try {
+    const user = await User.findOne({ where : {email:req.body.email} });
+    const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+    const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET)
+    if(passwordCompare != false){
+      res.status(200).json({ //ici je lui demande de me retourner le uuid et le token
+        userId: user.uuid, 
+        token: accessToken //le token est crée ici 
+
+      });
+    }else if(passwordCompare == false){
+      return res.status(401).json({ error: "Utilisateur inconnu" });
+    }
+    // code if success ...
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error)
+    // code if error ...
+  }
+}
+exports.getOneUser = async function(req,res){
+  try {
+    const user = await User.findOne({ where : {id: req.params.id} })
+
+    return res.status(200).json(user)
+  } catch (error) {
+    console.error(error);
+    return res.status(404).json(error)
+    // code if error ...
+  }
+}
+exports.updateUser = async function(req,res){
+  const { nom, prenom, email, password } = req.body
+  try {
+    const user = await User.findOne({ where : {id:req.params.id} })
+    const hash = await bcrypt.hash(password, 10)
+    user.nom = nom
+    user.prenom = prenom
+    user.email = email
+    user.password = hash
+
+    await user.save()
+
+    return res.status(201).json(user)
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json(error)
+  }
+}
+exports.deleteUser = async function(req,res){
+  try {
+    const user = await User.findOne({ where : {id:req.params.id} })
+    await user.destroy()
+    return res.status(200).json({message: 'User deleted !'})
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error)
+  }
+}
+exports.getMeInfos = async function(req,res){
+  try {
+
+  } catch (error) {
+
   }
 }

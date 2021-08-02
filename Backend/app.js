@@ -44,7 +44,7 @@ app.use(express.json());
 
 
 
-app.use("/api", userRoutes);
+app.use("/api/user", userRoutes);
 
 /* On crée la fonction qui permettra d'exporter app dans les autres modules */
 module.exports = app;

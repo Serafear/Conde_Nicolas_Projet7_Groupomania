@@ -1,5 +1,6 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const auth = require('../middleware/auth');
 
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,    // 10 minutes et 15 * 60 * 1000 = 15 minutes et 60 * 60 * 1000 = 1 heure
@@ -16,7 +17,10 @@ const userCtrl = require("../controllers/user"); //le controller va associer les
 //On crée les router nécessaires à user
 router.post("/signup", userCtrl.signup);
 router.post("/login", limiter, userCtrl.login)
-
+router.get("/me", auth, userCtrl.getMeInfos)
+router.get("/:userId",  userCtrl.getOneUser)
+router.put("/:id",  userCtrl.updateUser)
+router.delete("/:id",  userCtrl.deleteUser)
 
 
 module.exports = router;

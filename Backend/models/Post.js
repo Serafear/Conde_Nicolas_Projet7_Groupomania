@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       //we will have a one to many association
       //by default it will search for the model: User and the primary key: id so UserId
       //but we want to have a userId so....
-      this.belongsTo(User, { foreignKey: 'userId'}) //check the Post model
+      this.belongsTo(User, { foreignKey: 'userId'}) //check the Post model in migration
     }
   };
   Post.init({

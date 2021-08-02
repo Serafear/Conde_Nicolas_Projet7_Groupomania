@@ -18,9 +18,9 @@ const userCtrl = require("../controllers/user"); //le controller va associer les
 router.post("/signup", userCtrl.signup);
 router.post("/login", limiter, userCtrl.login)
 router.get("/me", auth, userCtrl.getMeInfos)
-router.get("/:userId",  userCtrl.getOneUser)
-router.put("/:id",  userCtrl.updateUser)
-router.delete("/:id",  userCtrl.deleteUser)
+router.get("/:userId", auth, userCtrl.getOneUser)  //to test it in insomnia, an auth :bearer token need to be set
+router.put("/:userId",  auth, userCtrl.updateUser)
+router.delete("/:userId", auth, userCtrl.deleteUser)
 
 
 module.exports = router;

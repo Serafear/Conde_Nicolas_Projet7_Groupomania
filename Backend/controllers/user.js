@@ -116,6 +116,7 @@ exports.login = async function (req, res) {
     // code if error ...
   }
 }*/
+
 exports.login = async function (req, res) {
   try {
     const user = await User.findOne({ where : {email:req.body.email} });
@@ -123,11 +124,12 @@ exports.login = async function (req, res) {
     const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET)
     if(passwordCompare != false){
       res.status(200).json({ //ici je lui demande de me retourner le uuid et le token
-        userId: user.uuid, 
+        userId: user.id, 
         token: accessToken //le token est crée ici 
-
+        
       });
-    }else if(passwordCompare == false){
+
+    }else if(passwordCompare === false){
       return res.status(401).json({ error: "Utilisateur inconnu" });
     }
     // code if success ...
@@ -139,7 +141,7 @@ exports.login = async function (req, res) {
 }
 exports.getOneUser = async function(req,res){
   try {
-    const user = await User.findOne({ where : {id: req.params.id} })
+    const user = await User.findOne({ where : {id: req.params.userId} })
 
     return res.status(200).json(user)
   } catch (error) {
@@ -151,7 +153,7 @@ exports.getOneUser = async function(req,res){
 exports.updateUser = async function(req,res){
   const { nom, prenom, email, password } = req.body
   try {
-    const user = await User.findOne({ where : {id:req.params.id} })
+    const user = await User.findOne({ where : {id:req.params.userId} })
     const hash = await bcrypt.hash(password, 10)
     user.nom = nom
     user.prenom = prenom
@@ -169,7 +171,7 @@ exports.updateUser = async function(req,res){
 }
 exports.deleteUser = async function(req,res){
   try {
-    const user = await User.findOne({ where : {id:req.params.id} })
+    const user = await User.findOne({ where : {id:req.params.userId} })
     await user.destroy()
     return res.status(200).json({message: 'User deleted !'})
   } catch (error) {
@@ -178,9 +180,4 @@ exports.deleteUser = async function(req,res){
   }
 }
 exports.getMeInfos = async function(req,res){
-  try {
-
-  } catch (error) {
-
-  }
 }

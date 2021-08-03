@@ -179,3 +179,14 @@ exports.deleteUser = async function(req,res){
     return res.status(500).json(error)
   }
 }
+exports.getMe = async function(req,res){
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  try {
+    const user = await User.findOne({where : {id: decodedToken.id}})
+    return res.status(201).json(user)
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error)
+  }
+}

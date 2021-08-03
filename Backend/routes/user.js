@@ -19,7 +19,7 @@ const User = require('../models/User');
 //On crée les router nécessaires à user
 router.post("/signup", userCtrl.signup);
 router.post("/login", limiter, userCtrl.login)
-router.get("/me", auth)
+router.get("/me", auth, userCtrl.getMe)
 router.get("/:userId", auth, userCtrl.getOneUser)  //to test it in insomnia, an auth :bearer token need to be set
 router.put("/:userId",  auth, userCtrl.updateUser)
 router.delete("/:userId", auth, userCtrl.deleteUser)

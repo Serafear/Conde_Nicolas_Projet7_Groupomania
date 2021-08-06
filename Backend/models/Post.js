@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       //we will have a one to many association
       //by default it will search for the model: User and the primary key: id so UserId
       //but we want to have a userId so....
-      this.belongsTo(User, { foreignKey: 'userId'}) //check the Post model in migration
+      this.belongsTo(User, { foreignKey: 'userId', as: 'user'}) //check the Post model in migration
     }
   };
   Post.init({
@@ -29,10 +29,17 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4  //the v4 is a randomly generated UUID
     },
-    body: DataTypes.STRING,
-    allowNull:false
+    body: {
+      type: DataTypes.STRING,
+      allowNull:true
+    }, 
+    image: {
+      type: DataTypes.STRING,
+      allowNull:true
+    }
   }, {
     sequelize,
+    tableName: 'posts',
     modelName: 'Post',
   });
   return Post;

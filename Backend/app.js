@@ -15,8 +15,14 @@ const express = require("express");
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
 
+/* on importe path pour que le serveur puisse gérer les dépots d'images ensuite on 
+déclare : app.use('/images', express.static(path.join(__dirname, 'images')));
+ */
+const path = require("path");
+
 
 const userRoutes = require("./routes/user");
+const postRoutes = require("./routes/post");
 
 dotenv.config({ path: './config.env'});
 
@@ -42,9 +48,15 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
+
+app.use(function (err, req, res, next) {
+  console.log('This is the invalid field ->', err.field)
+  next(err)
+})
 
 /* On crée la fonction qui permettra d'exporter app dans les autres modules */
 module.exports = app;

@@ -97,21 +97,22 @@ exports.updatePost = async function (req, res) {
   const post = await Post.findOne({
     where: { id: req.params.postId },
   });
-  const {body}=req.body;
-  const image  = `${req.protocol}://${req.get("host")}/images/${
+  const { body } = req.body;
+  const image = `${req.protocol}://${req.get("host")}/images/${
     //on utilise multer
     req.file.filename
   }`;
-  if(req.file){
+  if (req.file) {
     try {
       const filename = await post.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
         post.body = body; //cette forme est la seule qui fonctionne
-        post.image = image
+        post.image = image;
         post.save();
-        return res.status(201).json([post, {message: "post & image updated !"}]);
+        return res
+          .status(201)
+          .json([post, { message: "post & image updated !" }]);
       });
-      
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
@@ -120,7 +121,7 @@ exports.updatePost = async function (req, res) {
     try {
       post.body = body;
       await post.save();
-      return res.status(201).json([post, {message: "post updated !"}]);
+      return res.status(201).json([post, { message: "post updated !" }]);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);

@@ -9,13 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({User, Comment}) {  //because there is a User model we will not user (models) but ({User})
+    static associate({User, Comment, Reactions}) {  //because there is a User model we will not user (models) but ({User})
       // define association here
       //we will have a one to many association
       //by default it will search for the model: User and the primary key: id so UserId
       //but we want to have a userId so....
       Post.belongsTo(User, { foreignKey: 'userId', as: 'user'}), //check the Post model in migration
-      Post.hasMany(Comment, {foreignKey: 'postId', as: 'comment'})
+      Post.hasMany(Comment, {foreignKey: 'postId', as: 'comment'}),
+      Post.hasMany(Reactions, {foreignKey: 'postI', as: 'reactions'})
     }
   };
   Post.init({

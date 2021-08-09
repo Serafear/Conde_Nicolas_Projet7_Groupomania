@@ -23,6 +23,7 @@ const path = require("path");
 
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
+const commentRoutes = require("./routes/comment");
 
 dotenv.config({ path: './config.env'});
 
@@ -52,6 +53,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/post/:postId/comment", commentRoutes);
 
 app.use(function (err, req, res, next) {
   console.log('This is the invalid field ->', err.field)

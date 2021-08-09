@@ -72,7 +72,7 @@ exports.createPost = async function (req, res) {
 
 exports.getAllPosts = async function (req, res) {
   try {
-    const post = await Post.findAll({ include: [{ model: User, as: "user" }] }); //declared in model post associations
+    const post = await Post.findAll({ include:[{ model: User, as: "user" }] }); //declared in model post associations
     return res.status(201).json(post);
   } catch (error) {
     console.log(error);
@@ -97,13 +97,14 @@ exports.updatePost = async function (req, res) {
   const post = await Post.findOne({
     where: { id: req.params.postId },
   });
-  const { body } = req.body;
-  const image = `${req.protocol}://${req.get("host")}/images/${
-    //on utilise multer
-    req.file.filename
-  }`;
+  const { body } = req.body; //indispensable
+    //image doit être déclaré à l'extérieur pour être utilisable avec un post.image
   if (req.file) {
     try {
+      const image = `${req.protocol}://${req.get("host")}/images/${
+     //on utilise multer
+      req.file.filename
+      }`; 
       const filename = await post.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
         post.body = body; //cette forme est la seule qui fonctionne

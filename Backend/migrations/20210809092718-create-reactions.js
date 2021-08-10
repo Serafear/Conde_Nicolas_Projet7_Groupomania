@@ -8,17 +8,28 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      body: {
-        type: DataTypes.STRING,
-        allowNull:true
-      }, 
       postId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+      },
+      uuid: {
+        //for best practice : a uuid is a Universally Unique Identifier
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4, //the v4 is a randomly generated UUID
+      },
+      likes: {
+        type: DataTypes.INTEGER,
+        allowNull:true,
+        defaultValue: 0
+      },
+      dislikes: {
+        type: DataTypes.INTEGER,
+        allowNull:true,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,

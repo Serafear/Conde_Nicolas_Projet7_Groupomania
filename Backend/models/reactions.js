@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Reactions extends Model {
+  class Reactions extends Model {  //could have called Likes instead of reactions
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,25 +16,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Reactions.init({
-    body: {
-      type: DataTypes.STRING,
-      allowNull:true
-    }, 
-    postId: {
-      type: DataTypes.INTEGER,
+    id: {
       allowNull: false,
-      references : {
-        model: 'Post',
-        key: 'id'
-      }
+      autoIncrement: true,
+      primaryKey: true,
+      //type: Sequelize.INTEGER  we change all sequelize to Datatypes
+      type: DataTypes.INTEGER,
     },
-    userId: {
+    uuid: {
+      //for best practice : a uuid is a Universally Unique Identifier
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4, //the v4 is a randomly generated UUID
+    },
+    likes: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'User',
-        key: 'id'
-      }
+      allowNull:true,
+      defaultValue: 0
+    },
+    dislikes: {
+      type: DataTypes.INTEGER,
+      allowNull:true,
+      defaultValue: 0
     },
   }, {
     sequelize,

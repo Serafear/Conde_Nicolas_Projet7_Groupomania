@@ -36,12 +36,15 @@ exports.createReaction = async function (req, res) {
         .json([reaction, { message: "vous avez disliké ce message !" }]);
     } else {
       //ici il faut recupérer l'ancienne réaction et la mettre à jour
-      await Reactions.update({
-        isLike : req.body.isLike // il va recupérer l'info demandée : ligne 4 insomnia create reaction
-      },
+      await Reactions.update(
         {
-        where : {userId: user.id, postId: post.id},
-      })
+          isLike: req.body.isLike, // il va recupérer l'info demandée : ligne 4 insomnia create reaction
+          //il fait reférence au body de la REQUETE envoyée dans insomnia par exemple
+        },
+        {
+          where: { userId: user.id, postId: post.id },
+        }
+      );
       return res
         .status(201)
         .json([reaction, { message: "vous avez mis à jour votre réaction !" }]);
@@ -86,8 +89,7 @@ exports.getOneReaction = async function (req, res) {
     return res.status(500).json(error);
   }
 };
-exports.updateReaction = async function (req, res) {
-};
+
 exports.deleteReaction = async function (req, res) {
   try {
     const reaction = await Reactions.findOne({

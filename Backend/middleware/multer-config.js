@@ -31,9 +31,10 @@ const storage = multer.diskStorage({
   },
 });
 
-
-
 /* 2on prépare multer à l'exportation */
-module.exports = multer({ storage, limits : {fileSize : 4000000} /* 4mb? */ }).single("image");
+module.exports = multer({
+  storage,
+  limits: { fileSize: 4000000 } /* 4mb? */,
+}).single("image");
 //to test it in insomnia : in the multipart put image as name in the name field in front of the picture
 //this image name comme from .single('image') in multer-config.js

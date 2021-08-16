@@ -15,16 +15,25 @@ module.exports = {
       },
       nom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate : {
+          is: /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/gm
+        }
       },
       prenom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate : {
+          is: /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/gm
+        }
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        validate : {
+          is: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+        }
       },
       password: {
         type: DataTypes.STRING,

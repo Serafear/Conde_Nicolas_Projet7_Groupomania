@@ -2,8 +2,7 @@
 authentifié avant d'autoriser l'envoi de ses requêtes.
 Installons d'abord jsonwebtoken : npm install --save jsonwebtoken */
 const jwt = require("jsonwebtoken");
-require('dotenv').config({ path: './config.env'}); //qui resume le const dotenv = require('dotenv')+doenv.config()
-
+require("dotenv").config({ path: "./config.env" }); //qui resume le const dotenv = require('dotenv')+doenv.config()
 
 /* on crée le module utilisant jwt qui sera exporté ensuite dans les 
 .js de route ou autres */
@@ -36,6 +35,3 @@ module.exports = (req, res, next) => {
   }
 };
 //on passe ensuite à la création des routes.
-
-
-

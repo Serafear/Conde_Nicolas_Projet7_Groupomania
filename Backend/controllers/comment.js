@@ -21,11 +21,9 @@ exports.createComment = async function (req, res) {
           req.file.filename
         }`,
         postId: post.id,
-        userId: user.id
+        userId: user.id,
       });
-      return res.status(201).json([comment, 
-        { message: "comment crée !" }]
-        );
+      return res.status(201).json([comment, { message: "comment crée !" }]);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
@@ -36,11 +34,9 @@ exports.createComment = async function (req, res) {
         body,
 
         postId: post.id,
-        userId: user.id
+        userId: user.id,
       });
-      return res.status(201).json([comment, 
-        { message: "comment crée !" }]
-        );
+      return res.status(201).json([comment, { message: "comment crée !" }]);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
@@ -53,11 +49,9 @@ exports.createComment = async function (req, res) {
           req.file.filename
         }`,
         postId: post.id,
-        userId: user.id
+        userId: user.id,
       });
-      return res.status(201).json([comment, 
-        { message: "comment crée !" }]
-        );
+      return res.status(201).json([comment, { message: "comment crée !" }]);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
@@ -71,11 +65,14 @@ exports.createComment = async function (req, res) {
 
 exports.getAllComments = async function (req, res) {
   try {
-    const comment = await Comment.findAll({ 
-      include:[{ 
-        model: Post, as: "post",
-        include:[{ model: User, as: "user" }] 
-      }] 
+    const comment = await Comment.findAll({
+      include: [
+        {
+          model: Post,
+          as: "post",
+          include: [{ model: User, as: "user" }],
+        },
+      ],
     }); //declared in model post associations
     return res.status(201).json(comment);
   } catch (error) {
@@ -88,10 +85,13 @@ exports.getOneComment = async function (req, res) {
   try {
     const comment = await Comment.findOne({
       where: { id: req.params.commentId },
-      include:[{ 
-        model: Post, as: "post",
-        include:[{ model: User, as: "user" }] 
-      }] , // declared in models association
+      include: [
+        {
+          model: Post,
+          as: "post",
+          include: [{ model: User, as: "user" }],
+        },
+      ], // declared in models association
     });
     return res.status(201).json(comment);
   } catch (error) {
@@ -105,13 +105,13 @@ exports.updateComment = async function (req, res) {
     where: { id: req.params.commentId },
   });
   const { body } = req.body; //indispensable
-    //image doit être déclaré à l'extérieur pour être utilisable avec un post.image
+  //image doit être déclaré à l'extérieur pour être utilisable avec un post.image
   if (req.file) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-     //on utilise multer
-      req.file.filename
-      }`; 
+        //on utilise multer
+        req.file.filename
+      }`;
       const filename = await comment.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
         comment.body = body; //cette forme est la seule qui fonctionne

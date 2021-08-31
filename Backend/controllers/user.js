@@ -161,7 +161,7 @@ exports.updateUser = async function (req, res) {
 
     await user.save();
 
-    return res.status(201).json(user);
+    return res.status(200).json(user);
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
@@ -182,7 +182,7 @@ exports.getMe = async function (req, res) {
   const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   try {
     const user = await User.findOne({ where: { id: decodedToken.id } });
-    return res.status(201).json(user);
+    return res.status(200).json(user);
   } catch (error) {
     console.error(error);
     return res.status(500).json(error);

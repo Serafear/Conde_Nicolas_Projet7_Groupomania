@@ -1,17 +1,20 @@
+
 import { createApp } from "vue";
 import App from "./App.vue";
+import Vuex from"vuex"; //fait communiquer les différents composents entre eux. Il est lié au store !
 import "./index.css";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import router from "./routers";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faCommentAlt, faBell, faSignOutAlt, faUserCircle} from "@fortawesome/free-solid-svg-icons";
+import { faCommentAlt, faBell, faSignOutAlt, faUserCircle, faEye, faHome, faCaretDown} from "@fortawesome/free-solid-svg-icons";
 
 
-library.add(faCommentAlt, faBell, faSignOutAlt, faUserCircle);
+library.add(faCommentAlt, faBell, faSignOutAlt, faUserCircle, faEye, faHome, faCaretDown);
 
 
 createApp(App)
 .use(router)
+.use(Vuex)
 .component("font-awesome-icon", FontAwesomeIcon)
 .mount("#app");
 

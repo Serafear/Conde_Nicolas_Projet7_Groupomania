@@ -16,6 +16,7 @@ module.exports = {
         'gunmetal': "#22333B",
         'cultured': "#F2F4F3",
         'grullo': "#A9927D",
+        'pinky-1': "#FFD7D7"
       })
     },
   },

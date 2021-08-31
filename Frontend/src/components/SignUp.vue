@@ -9,7 +9,23 @@
         <input type="text" id="nom" name="nom" v-model="nom" class=" border-black border p-1 lg:w-60" placeholder="Entrez votre nom">
         <input type="text" id="prenom" name="prenom" v-model="prenom" class=" border-black border p-1" placeholder="Entrez votre prénom">
         <input type="email" id="email" name="email" v-model="email" class=" border-black border p-1" placeholder="Entrez votre email">
-        <input type="password" id="password" name="password" v-model="password" class=" border-black border p-1" placeholder="Entrez votre mot de passe">
+        <div class="grid grid-flow-col">
+          <input
+            :type="passwordFieldType"
+            v-model="password"
+            id="password"
+            name="password"
+            placeholder="Entrez votre mot de passe"
+            class="border-black border p-1"
+          />
+          <button
+            v-on:click="switchVisibility"
+            type="password"
+            class="absolute lg:ml-52 lg:mt-1"
+          >
+            <font-awesome-icon icon="eye" class="text-2xl" />
+          </button>
+        </div>
         <input type="button" v-on:click="signUp" id="in-reg" name="in-reg" value="inscription" class=" rounded-xl border-black border p-1 mt-4 bg-grullo"> 
       </form>
       <p class=" text-sm mt-3 text-snow">Si vous avez déjà un compte cliquez ici :</p>
@@ -27,7 +43,8 @@ export default {
       nom: '',
       prenom:'',
       email: '',
-      password: ''
+      password: '',
+      passwordFieldType: "password",
     }
   },
   methods: {
@@ -46,7 +63,18 @@ export default {
         
         this.$router.push({name:'Login'})
       }
-    }
+    },
+    switchVisibility(e) {
+      e.preventDefault();
+      this.passwordFieldType =
+        this.passwordFieldType === "password" ? "text" : "password";
+    },
+  },
+  mounted(){
+      let token = localStorage.getItem('token');
+      if(token){
+          this.$router.push({name:'Home'})
+      }
   }
 }
 </script>

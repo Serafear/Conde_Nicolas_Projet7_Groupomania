@@ -103,6 +103,11 @@
       Modifier
     </button>
   </form>
+  <div>
+    <p>Si vous désirez supprimer votre <br> compte cliquez ici: 
+      <router-link :to="'/delete/'+user.id" class=" underline hover:text-rufous">Supprimer</router-link>
+    </p>
+  </div>
 </template>
 
 <script>

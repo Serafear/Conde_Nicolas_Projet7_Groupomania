@@ -5,6 +5,7 @@ import Home from "./components/Home.vue";
 import SignUp from "./components/SignUp.vue";
 import Login from "./components/Login.vue";
 import MyPage from "./components/MyPage.vue";
+import Delete from "./components/Delete.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
     name: "MyPage",
     component:MyPage,
     path: "/mypage/:userId",
+  },
+  {
+    name: "Delete",
+    component:Delete,
+    path: "/delete/:userId",
   },
 ];
 

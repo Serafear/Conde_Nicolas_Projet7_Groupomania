@@ -17,7 +17,22 @@ module.exports = {
         'cultured': "#F2F4F3",
         'grullo': "#A9927D",
         'pinky-1': "#FFD7D7"
-      })
+      }),
+      height: theme =>({
+        'c130': '130rem',
+        'c100': '100rem',
+        'c80': '80rem',
+        'c50': '50rem'
+      }),
+      margin: theme =>({
+        'c130': '130rem',
+        'c100': '100rem',
+        'c80': '80rem',
+        'c50': '50rem',
+        'c40': '40rem',
+        'c30': '30rem',
+        'c35': '35rem',
+      }),
     },
   },
   variants: {

@@ -6,10 +6,12 @@ import "./index.css";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import router from "./routers";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faCommentAlt, faBell, faSignOutAlt, faUserCircle, faEye, faHome, faCaretDown} from "@fortawesome/free-solid-svg-icons";
+import { faCommentAlt, faBell, faSignOutAlt, faUserCircle, 
+  faEye, faHome, faCaretDown, faComment, faThumbsUp, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 
 
-library.add(faCommentAlt, faBell, faSignOutAlt, faUserCircle, faEye, faHome, faCaretDown);
+library.add(faCommentAlt, faBell, faSignOutAlt, faUserCircle, faEye, 
+  faHome, faCaretDown, faComment, faThumbsDown, faThumbsUp);
 
 
 createApp(App)

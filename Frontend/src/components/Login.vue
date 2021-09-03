@@ -119,6 +119,7 @@ export default {
       if (fetchLogin.status == 200) {
         // another condition but dont work: fetchLogin.status==200 && fetchLogin.data.length>0
         localStorage.setItem("token", JSON.stringify(loginData.token));
+        localStorage.setItem("userId", JSON.stringify(loginData.userId));
         this.$router.push({ name: "Home" });
       }
     },

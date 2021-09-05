@@ -105,7 +105,7 @@
   </form>
   <div>
     <p>Si vous désirez supprimer votre <br> compte cliquez ici: 
-      <router-link :to="'/delete/'+user.id" class=" underline hover:text-rufous">Supprimer</router-link>
+      <router-link :to="'/delete/'+$store.state.userId" class=" underline hover:text-rufous">Supprimer</router-link>
     </p>
   </div>
 </template>
@@ -140,7 +140,7 @@ export default {
       }
     );
     console.warn(fetchMyPage);
-    delete fetchMyPage.data.password;
+    delete fetchMyPage.data.password; //it delete the value of pasword before being defined in user
     this.user = fetchMyPage.data; //it prefil the value of nom, prenom, etc...
   },
   methods: {

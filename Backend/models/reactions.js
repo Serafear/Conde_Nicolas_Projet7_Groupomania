@@ -28,20 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4, //the v4 is a randomly generated UUID
       },
-      postId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: "Post",
-          key: "id",
-        },
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: "User",
-          key: "id",
-        },
-      },
+      
       isLike: {
         type: DataTypes.STRING,
         allowNull: true,

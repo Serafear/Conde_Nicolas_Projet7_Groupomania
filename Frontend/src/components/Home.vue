@@ -17,10 +17,13 @@
         <div id="chat space" class="bg-white w-5/6 h-5/6 overflow-auto">
           <p>messages</p>
           <ul>
+            <!--On va rajouter une classe conditionnelle: owner qu'on pourra styliser-->
             <li
               id="Posts"
               v-for="Post in Posts"
               :key="Post.id"
+              :Post="Post"
+              :class="{ owner: Post.user.id == $store.state.userId }"
               class="
                 flex flex-col
                 mb-5
@@ -33,27 +36,24 @@
                 px-3
               "
             >
-              <span>{{ Post.user.nom }} {{ Post.id }}</span>
+              <span>{{ Post.user.nom }} {{ Post.id }} {{Post.user.id}}</span>
               <span>{{ Post.body }}</span>
               <span>{{ Post.user.createdAt }}</span>
-              <div class="flex gap-3 mt-2">
+               <!--le v-if de la div cache le button supprimer et modifier 
+               pour peux dont le post.user.id est différent du userId dans le
+               store -->
+              <div
+                v-if="Post.user.id == $store.state.userId"  
+                class="flex gap-3 mt-2"
+              >
                 <button @click="deletePost(Post)" class="bg-amar rounded-lg">
                   supprimer
                 </button>
                 <button>modifier</button>
               </div>
-              <div class=" flex flex-row gap-3 mt-2 justify-end">
-                  <font-awesome-icon
-                icon="thumbs-up"
-                class="text-2xl text-rufous"
-              />
-              <font-awesome-icon
-                icon="thumbs-down"
-                class="text-2xl text-rufous mt-1"
-              />
-              </div>
-              
-              <Comments />
+              <Reactions :key="Post.id" :Post="Post"/>
+
+              <Comments :key="Post.id" :Post="Post"/>
             </li>
             <li>Your message</li>
           </ul>
@@ -62,9 +62,10 @@
             class="flex flex-row gap-4 mt-c35 bg-gray-500 justify-center"
           >
             <form class="flex flex-row gap-6 w-3/6 bg-red-200">
+            <!--le body est associéau contenu de l'input qu'on va rentré-->
               <input
                 type="text"
-                v-model="message.body"
+                v-model="message.body" 
                 name="text"
                 class="border border-solid border-black rounded-xl w-4/6"
               />
@@ -93,11 +94,13 @@
 import axios from "axios";
 import Header from "./Header.vue";
 import Comments from "./Comments.vue";
+import Reactions from './Reactions.vue'
 export default {
   name: "Home",
   components: {
     Header,
     Comments,
+    Reactions
   },
   data() {
     return {
@@ -105,10 +108,13 @@ export default {
         body: "",
         image: null,
       },
-      userId: localStorage.getItem("userId"),
-      Posts: [],
       PostsIndex: "",
     };
+  },
+  computed: {
+    Posts() {
+      return this.$store.state.Posts; //permet d'afficher l'array en combiaison avec v-for
+    },
   },
   async mounted() {
     //ici l'évènement est monté dont l'opération est finie. Il faut donc rafraichir la page ou créer une fonction qui rafraichit la page dès que le token est touché/ voir aussi eventBus comme solution plus légère
@@ -116,15 +122,7 @@ export default {
     if (!token) {
       this.$router.push({ name: "SignUp" });
     }
-    let fetchAllPosts = await axios
-      .get("http://localhost:4000/api/post", {
-        headers: {
-          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
-        },
-      })
-      .then((response) => (this.Posts = response.data)); //l'array ne fonctionne pas sans ça
-
-    console.warn(fetchAllPosts);
+    this.$store.dispatch("fetchAllPosts");
     //const myPost = this.Posts.map((mypost)=>mypost.id); //exemple de maping
     //console.warn(myPost);
   },
@@ -138,7 +136,7 @@ export default {
       const formData = new FormData();
       //formData.append("image", this.message.image, this.message.image.name);
       formData.append("body", this.message.body);
-      formData.append("userId", this.userId);
+      formData.append("userId", this.$store.state.userId);
       let myMessage = await axios.post(
         "http://localhost:4000/api/post",
         formData,
@@ -186,4 +184,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+ .owner {
+     background-color: #A40606;
+     color: white;
+     margin-left: 10rem;
+ }
+ 
+
+</style>
 

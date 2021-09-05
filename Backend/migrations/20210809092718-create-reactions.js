@@ -10,17 +10,11 @@ module.exports = {
       },
       postId: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "Posts",
-          key: "id",
-        },
+        allowNull: false
       },
       userId: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
+        allowNull: false
       },
       uuid: {
         //for best practice : a uuid is a Universally Unique Identifier

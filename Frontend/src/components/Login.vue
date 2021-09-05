@@ -54,7 +54,7 @@
           <button
             v-on:click="switchVisibility"
             type="password"
-            class="absolute lg:right-52 lg:mt-1"
+            class="absolute lg:ml-52 lg:mt-1"
           >
             <font-awesome-icon icon="eye" class="lg:text-2xl" />
           </button>

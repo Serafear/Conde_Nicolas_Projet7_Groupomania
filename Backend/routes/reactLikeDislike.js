@@ -2,7 +2,7 @@ const express = require("express");
 const auth = require("../middleware/auth");
 
 const router = express.Router();
-const reactCtrl = require("../controllers/reactLikeDilsike");
+const reactCtrl = require("../controllers/reactLikeDislike");
 
 router.post("/", auth, reactCtrl.createReaction);
 router.get("/", auth, reactCtrl.getAllReactions);

@@ -9,7 +9,7 @@ const { post } = require("../routes/post");
 const { reaction } = require("../routes/reactLikeDislike");
 
 exports.createReaction = async function (req, res) {
-  const { userId, postId } = req.body;
+  const { postId } = req.body;
   const user = await User.findOne({ where: { id: userId } });
   const post = await Post.findOne({ where: { id: postId } });
   const Liked = "like";

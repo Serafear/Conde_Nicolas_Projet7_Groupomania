@@ -88,7 +88,7 @@ export default {
       this.$router.push({ name: "Login" });
     },
   },
-  async mounted() {
+  async created() {
     let fetchMyPage = await axios.get("http://localhost:4000/api/user/me", {
       headers: {
         Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),

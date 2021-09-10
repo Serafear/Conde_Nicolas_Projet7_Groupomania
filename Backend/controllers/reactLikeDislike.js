@@ -5,11 +5,10 @@ require("dotenv").config({ path: "./config.env" });
 const { sequelize, User, Post, Reactions } = require("../models");
 
 const { Model } = require("sequelize");
-const { post } = require("../routes/post");
-const { reaction } = require("../routes/reactLikeDislike");
+
 
 exports.createReaction = async function (req, res) {
-  const { postId } = req.body;
+  const { userId, postId } = req.body;
   const user = await User.findOne({ where: { id: userId } });
   const post = await Post.findOne({ where: { id: postId } });
   const Liked = "like";
@@ -17,13 +16,13 @@ exports.createReaction = async function (req, res) {
 
   try {
     const [reaction, created] = await Reactions.findOrCreate({
-      where: { userId: user.id },
-      defaults: {
-        postId: post.id,
-      },
+      where: { userId: user.id, postId: post.id },
+    
+      
     });
     if (created && Liked) {
       reaction.isLike = Liked;
+      
       await reaction.save();
       return res
         .status(201)
@@ -36,7 +35,7 @@ exports.createReaction = async function (req, res) {
         .json([reaction, { message: "vous avez disliké ce message !" }]);
     } else {
       //ici il faut recupérer l'ancienne réaction et la mettre à jour
-      await Reactions.update(
+      await reaction.update(
         {
           isLike: req.body.isLike, // il va recupérer l'info demandée : ligne 4 insomnia create reaction
           //il fait reférence au body de la REQUETE envoyée dans insomnia par exemple

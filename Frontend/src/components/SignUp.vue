@@ -70,7 +70,7 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
   },
-  mounted(){
+  created(){
       let token = localStorage.getItem('token');
       if(token){
           this.$router.push({name:'Home'})

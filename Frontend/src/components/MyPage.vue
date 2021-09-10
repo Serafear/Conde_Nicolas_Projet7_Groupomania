@@ -130,7 +130,7 @@ export default {
       passwordFieldType: "password",
     };
   },
-  async mounted() {
+  async created() {
     let fetchMyPage = await axios.get(
       "http://localhost:4000/api/user/" + this.$route.params.userId,
       {

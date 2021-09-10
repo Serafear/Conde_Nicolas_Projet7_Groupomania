@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       //by default it will search for the model: User and the primary key: id so UserId
       //but we want to have a userId so....
       Post.belongsTo(User, { foreignKey: "userId", as: "user" }), //check the Post model in migration
-        Post.hasMany(Comment, { foreignKey: "postId", as: "comment" }),
+        Post.hasMany(Comment, { foreignKey: "postId" }),
         Post.hasMany(Reactions, { foreignKey: "postId", as: "reactions" });
     }
   }

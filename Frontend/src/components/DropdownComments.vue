@@ -92,7 +92,7 @@ export default {
       return this.$store.state.Comments;
     },
   },
-  mounted() {
+  created() {
     this.$store.dispatch("fetchAllComments");
   },
   methods: {

@@ -26,7 +26,7 @@ export default {
         return this.$store.state.isLike;
      }
   },
-  mounted() {
+  created() {
     this.$store.dispatch("fetchAllReactions");
   },
   methods: {

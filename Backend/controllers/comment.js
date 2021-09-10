@@ -5,8 +5,7 @@ require("dotenv").config({ path: "./config.env" });
 const { sequelize, User, Post, Comment } = require("../models");
 
 const { Model } = require("sequelize");
-const { post } = require("../routes/post");
-const { comment } = require("../routes/comment");
+
 
 exports.createComment = async function (req, res) {
   const { userId, postId, body } = req.body;

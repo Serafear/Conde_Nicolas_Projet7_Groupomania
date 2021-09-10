@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp.vue";
 import Login from "./components/Login.vue";
 import MyPage from "./components/MyPage.vue";
 import Delete from "./components/Delete.vue";
+import OnePost from "./components/OnePost.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -33,6 +34,12 @@ const routes = [
     name: "Delete",
     component:Delete,
     path: "/delete/:userId",
+  },
+  {
+    name: "OnePost",
+    component: OnePost,
+    path: "/post/:postId", //vue que dans home on décrète que id=Post.id
+    props: true,    //vue qu'on utilisera props:["id"] dans la page, il est lié à id dans path
   },
 ];
 

@@ -7,10 +7,11 @@ const fs = require("fs"); //file system
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "./config.env" });
 
-const { sequelize, User, Post } = require("../models");
+const { sequelize, Comment, User, Post } = require("../models");
 
 const { Model } = require("sequelize");
-const { post } = require("../routes/post");
+const { up } = require("../migrations/20210802105548-create-post");
+
 
 /*pour tester dans insomnia :
 choisir multipart form 
@@ -72,7 +73,7 @@ exports.createPost = async function (req, res) {
 
 exports.getAllPosts = async function (req, res) {
   try {
-    const post = await Post.findAll({ include: [{ model: User, as: "user" }] }); //declared in model post associations
+    const post = await Post.findAll({ include: [{ model: User, as: "user" }, {model: Comment}] }); //declared in model post associations
     return res.status(201).json(post);
   } catch (error) {
     console.log(error);
@@ -84,7 +85,7 @@ exports.getOnePost = async function (req, res) {
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
-      include: [{ model: User, as: "user" }], // declared in model post association
+      include: [{ model: User, as: "user" }, {model: Comment}], // declared in model post association
     });
     return res.status(201).json(post);
   } catch (error) {
@@ -98,8 +99,48 @@ exports.updatePost = async function (req, res) {
     where: { id: req.params.postId },
   });
   const { body } = req.body; //indispensable
+  const upObject = req.file;
+  console.log(req.params.image);
   //image doit être déclaré à l'extérieur pour être utilisable avec un post.image
-  if (req.file) {
+   if(!post.image && upObject){ //si dans le post après recherche where, il n'y a pas d'image alors
+    try {
+      const image = `${req.protocol}://${req.get("host")}/images/${
+        //on utilise multer
+        req.file.filename
+        
+      }`;
+      const filename = await image.split("/images/")[1];
+        post.body = body; //cette forme est la seule qui fonctionne
+        post.image = image;
+        post.save();
+        return res
+          .status(201)
+          .json([post, { message: "post & image maj !" }]);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+  else if(upObject && !body){ //si il n'y a pas de requete body dans la demande d'update
+    try {
+      const image = `${req.protocol}://${req.get("host")}/images/${
+        //on utilise multer
+        req.file.filename
+      }`;
+      const filename = await post.image.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
+        post.image = image;
+        post.save();
+        return res
+          .status(201)
+          .json([post, { message: "image updated !" }]);
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+  else if (upObject && post.image) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
         //on utilise multer

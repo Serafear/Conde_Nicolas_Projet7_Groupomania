@@ -14,15 +14,15 @@
         class="bg-grullo w-4/6 flex flex-col justify-center items-center"
       >
         <h1>CHAT BOX</h1>
-        <div id="chat space" class="bg-white w-5/6 h-5/6 overflow-auto">
-          <p>messages</p>
-          <ul>
+        <div
+          id="chat space"
+          class="bg-white w-5/6 h-5/6 overflow-auto overscroll-contain"
+        >
+          <ul v-for="Post in Posts" :key="Post.id" :Post="Post">
             <!--On va rajouter une classe conditionnelle: owner qu'on pourra styliser-->
+
             <li
               id="Posts"
-              v-for="Post in Posts"
-              :key="Post.id"
-              :Post="Post"
               :class="{ owner: Post.user.id == $store.state.userId }"
               class="
                 flex flex-col
@@ -33,42 +33,78 @@
                 rounded-xl
                 w-4/6
                 p-1
-                px-3
+                px-3 
+                break-normal
               "
             >
-              <span>{{ Post.user.nom }} {{ Post.id }} {{Post.user.id}}</span>
-              <span>{{ Post.body }}</span>
-              <span>{{ Post.user.createdAt }}</span>
-               <!--le v-if de la div cache le button supprimer et modifier 
+              <!--vu qu'on utilisera le props id dans OnePost.vue-->
+              <router-link :to="'/post/'+Post.id">
+                <div class="flex flex-col mb-5 w-5/6 px-1">
+                  <span
+                    >{{ Post.user.nom }} {{ Post.id }} {{ Post.user.id }}</span
+                  >
+                  <span>{{ Post.body }}</span>
+                  <span>{{ Post.user.createdAt }}</span>
+                  <!--le v-if de la div cache le button supprimer et modifier 
                pour peux dont le post.user.id est différent du userId dans le
                store -->
+                </div>
+              </router-link>
               <div
-                v-if="Post.user.id == $store.state.userId"  
-                class="flex gap-3 mt-2"
+                v-if="Post.user.id == $store.state.userId"
+                class="flex gap-3 mt-2 mb-2"
               >
-                <button @click="deletePost(Post)" class="bg-amar rounded-lg">
+                <button
+                  @click="deletePost(Post)"
+                  class="bg-amar rounded-lg p-1"
+                >
                   supprimer
                 </button>
-                <button>modifier</button>
-              </div>
-              <Reactions :key="Post.id" :Post="Post"/>
 
-              <Comments :key="Post.id" :Post="Post"/>
+                <!--vu qu'on utilisera le props id dans OnePost.vue-->
+                <router-link
+                  :to="'/post/'+Post.id"
+                  class="bg-rufous w-3/4"
+                ></router-link>
+              </div>
+              <div class="flex flex-row justify-end gap-2">
+                <!--vu qu'on utilisera le props id dans OnePost.vue-->
+                <router-link
+                  :to="'/post/'+Post.id"
+                  class="router bg-lav-bl w-3/4"
+                ></router-link>
+
+                <Reactions :key="Post.id" :Post="Post" /><Comments
+                  :key="Post.id"
+                  :Post="Post"
+                />
+              </div>
             </li>
-            <li>Your message</li>
           </ul>
+        </div>
+
+        <!--cette div s'occupe de l'envoi de l'image et du message-->
+        <div id="barre-envoi" class="flex flex-row w-5/6">
           <div
             id="Buttons"
-            class="flex flex-row gap-4 mt-c35 bg-gray-500 justify-center"
+            class="
+              flex flex-row
+              gap-4
+              justify-evenly
+              bg-gunmetal
+              p-2
+              w-5/6
+              h-12
+            "
           >
-            <form class="flex flex-row gap-6 w-3/6 bg-red-200">
-            <!--le body est associéau contenu de l'input qu'on va rentré-->
+            <form class="flex flex-row gap-6 w-5/6">
+              <!--le body est associé au contenu de l'input qu'on va rentré-->
               <input
-                type="text"
-                v-model="message.body" 
-                name="text"
-                class="border border-solid border-black rounded-xl w-4/6"
+                v-model="message.body"
+                name="body"
+                class="border border-solid border-black rounded-xl w-5/6"
               />
+              {{message}}
               <input
                 type="submit"
                 value="envoyer"
@@ -76,10 +112,32 @@
                 @click="createMessage"
               />
             </form>
-            <input type="file" @change="onFileSelected" class="w-22 text-sm" />
+          </div>
+          <!--On va cacher l'input file-->
+          <div
+            id="hide"
+            class="
+              flex flex-row flex-1
+              justify-center
+              items-center
+              gap-3
+              bg-ox-bl
+              p-1
+              px-2
+            "
+          >
+            <font-awesome-icon
+              icon="file-image"
+              class="file-image text-2xl text-pinky-1 absolute -ml-7"
+            />
+            <input
+              type="file"
+              @change="onFileSelected"
+              class="w-10 text-sm z-10 opacity-0"
+            />
             <input
               type="button"
-              value="upl"
+              value="envoyer"
               class="cursor-pointer"
               @click="sendPicture"
             />
@@ -94,13 +152,14 @@
 import axios from "axios";
 import Header from "./Header.vue";
 import Comments from "./Comments.vue";
-import Reactions from './Reactions.vue'
+import Reactions from "./Reactions.vue";
 export default {
   name: "Home",
   components: {
     Header,
     Comments,
-    Reactions
+    Reactions,
+    
   },
   data() {
     return {
@@ -116,7 +175,7 @@ export default {
       return this.$store.state.Posts; //permet d'afficher l'array en combiaison avec v-for
     },
   },
-  async mounted() {
+  async created() {
     //ici l'évènement est monté dont l'opération est finie. Il faut donc rafraichir la page ou créer une fonction qui rafraichit la page dès que le token est touché/ voir aussi eventBus comme solution plus légère
     let token = localStorage.getItem("token");
     if (!token) {
@@ -186,12 +245,13 @@ export default {
 </script>
 
 <style scoped>
- .owner {
-     background-color: #A40606;
-     color: white;
-     margin-left: 10rem;
- }
- 
-
+.owner {
+  background-color: #a40606;
+  color: white;
+  margin-left: 10rem;
+}
+.owner .router {
+  background-color: #a40606;
+}
 </style>
 

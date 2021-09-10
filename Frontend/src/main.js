@@ -7,11 +7,12 @@ import router from "./routers";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faCommentAlt, faBell, faSignOutAlt, faUserCircle, 
   faEye, faHome, faCaretDown, faComment, faThumbsUp, faThumbsDown,
-faPaperPlane} from "@fortawesome/free-solid-svg-icons";
+faPaperPlane, faFileImage} from "@fortawesome/free-solid-svg-icons";
 
 
 library.add(faCommentAlt, faBell, faSignOutAlt, faUserCircle, faEye, 
-  faHome, faCaretDown, faComment, faThumbsDown, faThumbsUp, faPaperPlane);
+  faHome, faCaretDown, faComment, faThumbsDown, faThumbsUp, 
+  faPaperPlane, faFileImage);
 
 
 createApp(App)

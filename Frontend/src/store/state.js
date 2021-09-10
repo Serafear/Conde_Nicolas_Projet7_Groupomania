@@ -1,7 +1,7 @@
 export default {
     userId: localStorage.getItem("userId"),
     Posts: [],
-    Post: null,
+    //Post: null,
     Comments: [],
     isLike:[],
     Like:[],

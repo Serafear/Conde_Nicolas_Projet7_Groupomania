@@ -55,15 +55,7 @@ exports.createReaction = async function (req, res) {
 };
 exports.getAllReactions = async function (req, res) {
   try {
-    const reaction = await Reactions.findAll({
-      include: [
-        {
-          model: Post,
-          as: "post",
-          include: [{ model: User, as: "user" }],
-        },
-      ],
-    }); //declared in model associations
+    const reaction = await Reactions.findAll({ include: [{ model: User, as: "user" }, {model: Post, as: "post"}] }); //declared in model associations
     return res.status(201).json(reaction);
   } catch (error) {
     console.log(error);

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       //but we want to have a userId so....
       Post.belongsTo(User, { foreignKey: "userId", as: "user" }), //check the Post model in migration
         Post.hasMany(Comment, { foreignKey: "postId" }),
-        Post.hasMany(Reactions, { foreignKey: "postId", as: "reactions" });
+        Post.hasMany(Reactions, { foreignKey: "postId" });
     }
   }
   Post.init(

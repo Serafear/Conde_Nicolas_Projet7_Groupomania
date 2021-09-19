@@ -33,27 +33,7 @@ export const fetchAllComments = ({commit}, postId)=> {
 }
 
 //Reactions
-export const fetchAllReactions = ({commit}, postId)=> {
-    axios.get(`http://localhost:4000/api/post/${postId}/react`,{
-        headers: {
-            Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-    })
-    .then(response =>{commit('SET_REACTIONS', response.data)})
-}
 
-export const addALike = ({commit}, postId) => {
-    axios.post(`http://localhost:4000/api/post/${postId}/react`, {
-        userId: localStorage.getItem("userId"),
-        postId: 5,
-        isLike: "like"
-    },{
-        headers: {
-            Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-    })
-    .then(response =>{commit('SET_LIKE', response.data)})
-}
 
 
 

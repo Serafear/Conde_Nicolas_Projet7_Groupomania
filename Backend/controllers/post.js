@@ -7,7 +7,7 @@ const fs = require("fs"); //file system
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "./config.env" });
 
-const { sequelize, Comment, User, Post } = require("../models");
+const { sequelize, Comment, User, Post, Reactions } = require("../models");
 
 const { Model } = require("sequelize");
 const { up } = require("../migrations/20210802105548-create-post");
@@ -73,7 +73,7 @@ exports.createPost = async function (req, res) {
 
 exports.getAllPosts = async function (req, res) {
   try {
-    const post = await Post.findAll({ include: [{ model: User, as: "user" }, {model: Comment}] }); //declared in model post associations
+    const post = await Post.findAll({ include: [{ model: User, as: "user" }, {model: Comment}, {model: Reactions}] }); //declared in model post associations
     return res.status(201).json(post);
   } catch (error) {
     console.log(error);
@@ -85,7 +85,7 @@ exports.getOnePost = async function (req, res) {
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
-      include: [{ model: User, as: "user" }, {model: Comment}], // declared in model post association
+      include: [{ model: User, as: "user" }, {model: Comment}, {model: Reactions}], // declared in model post association
     });
     return res.status(201).json(post);
   } catch (error) {
@@ -128,7 +128,7 @@ exports.updatePost = async function (req, res) {
         req.file.filename
       }`;
       const filename = await post.image.split("/images/")[1];
-      fs.unlink(`images/${filename}`, () => {
+      await fs.unlink(`images/${filename}`, () => {
         post.image = image;
         post.save();
         return res

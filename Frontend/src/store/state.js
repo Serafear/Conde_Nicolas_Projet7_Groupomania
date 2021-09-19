@@ -3,7 +3,5 @@ export default {
     Posts: [],
     //Post: null,
     Comments: [],
-    isLike:[],
-    Like:[],
-    Dislike:[]
+    
 }

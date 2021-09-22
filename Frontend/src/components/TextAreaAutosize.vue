@@ -3,8 +3,8 @@
     box-border utilisera la taille réelle padding inclu, 
     autrement dit il ignorera le padding-->
     <textarea 
-    class="textarea box-border w-80 mt-4 ml-4 border border-black shadow-lg text-black" 
-     rows="2"
+    class="textarea" 
+     rows="1"
      :name="name"
      :id="name"
      @input="$emit('update:modelValue', $event.target.value); resize($event)"

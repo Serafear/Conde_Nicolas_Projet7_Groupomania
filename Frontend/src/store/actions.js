@@ -32,6 +32,7 @@ export const fetchAllComments = ({commit}, postId)=> {
     .then(response =>{commit('SET_COMMENTS', response.data)})
 }
 
+
 //Reactions
 
 

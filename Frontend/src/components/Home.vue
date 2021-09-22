@@ -3,10 +3,23 @@
 
   <div id="mainPage" class="container flex justify-center mt-5">
     <div class="flex flex-row lg:w-11/12 lg:h-c50">
-      <section id="sidebar" class="w-2/6 bg-pal-si">
-        <h1>Inbox</h1>
+    <!--ici, quelques exemples d'images de profile pour si jamais le systeme est implémenté-->
+      <section id="sidebar" class="w-2/6 bg-pal-si flex flex-col gap-3 justify-start items-center">
+        <h1 class=" font-bold text-4xl mt-3">Inbox</h1>
+        <p class="font-semibold text-2xl">Groupe</p>
         <ul>
-          <li>groupe</li>
+          <li class="flex flex-col justify-center items-center">
+            <img class=" flex w-44" src=" src\assets\profile-pic.png"/>
+            <p class="text-2xl text-snow underline">Ylan</p>
+          </li>
+          <li class="flex flex-col justify-center items-center mt-4">
+            <img class=" flex w-44" src="src\assets\profile-pic (1).png"/>
+            <p class="text-2xl text-snow underline">Yvette</p>
+          </li>
+          <li class="flex flex-col justify-center items-center mt-4">
+            <img class=" flex w-44" src="src\assets\profile-pic (2).png"/>
+            <p class="text-2xl text-snow underline">Jean-luc</p>
+          </li>
         </ul>
       </section>
 
@@ -33,16 +46,15 @@
                 rounded-xl
                 w-4/6
                 p-1
-                px-3 
+                px-3
                 break-normal
               "
             >
               <!--vu qu'on utilisera le props id dans OnePost.vue-->
-              <router-link :to="'/post/'+Post.id">
+              <router-link :to="'/post/' + Post.id">
                 <div class="flex flex-col mb-5 w-5/6 px-1">
-                  <span
-                    >{{ Post.user.nom }} {{ Post.id }} {{ Post.user.id }}</span
-                  >
+                  <span>{{ Post.user.nom }}</span>
+                  <img class=" w-48" :src="Post.image"/>
                   <span>{{ Post.body }}</span>
                   <span>{{ Post.user.createdAt }}</span>
                   <!--le v-if de la div cache le button supprimer et modifier 
@@ -63,18 +75,19 @@
 
                 <!--vu qu'on utilisera le props id dans OnePost.vue-->
                 <router-link
-                  :to="'/post/'+Post.id"
+                  :to="'/post/' + Post.id"
                   class="bg-rufous w-3/4"
                 ></router-link>
               </div>
               <div class="flex flex-row justify-end gap-2">
                 <!--vu qu'on utilisera le props id dans OnePost.vue-->
                 <router-link
-                  :to="'/post/'+Post.id"
+                  :to="'/post/' + Post.id"
                   class="router bg-lav-bl w-3/4"
                 ></router-link>
 
-                <Reactions :key="Post.id" :Post="Post" /><Comments
+                <ReactionsHome :allPost="Post" />
+                <Comments
                   :key="Post.id"
                   :Post="Post"
                 />
@@ -84,64 +97,47 @@
         </div>
 
         <!--cette div s'occupe de l'envoi de l'image et du message-->
-        <div id="barre-envoi" class="flex flex-row w-5/6">
-          <div
-            id="Buttons"
-            class="
-              flex flex-row
-              gap-4
-              justify-evenly
-              bg-gunmetal
-              p-2
-              w-5/6
-              h-12
-            "
-          >
-            <form class="flex flex-row gap-6 w-5/6">
-              <!--le body est associé au contenu de l'input qu'on va rentré-->
-              <input
-                v-model="message.body"
-                name="body"
-                class="border border-solid border-black rounded-xl w-5/6"
-              />
-              {{message}}
-              <input
-                type="submit"
-                value="envoyer"
-                class="cursor-pointer"
-                @click="createMessage"
-              />
-            </form>
-          </div>
-          <!--On va cacher l'input file-->
-          <div
-            id="hide"
-            class="
-              flex flex-row flex-1
-              justify-center
-              items-center
-              gap-3
-              bg-ox-bl
-              p-1
-              px-2
-            "
-          >
-            <font-awesome-icon
-              icon="file-image"
-              class="file-image text-2xl text-pinky-1 absolute -ml-7"
-            />
-            <input
-              type="file"
-              @change="onFileSelected"
-              class="w-10 text-sm z-10 opacity-0"
-            />
-            <input
-              type="button"
-              value="envoyer"
-              class="cursor-pointer"
-              @click="sendPicture"
-            />
-          </div>
+        <div id="barre-envoi" class="flex flex-row w-5/6 gap-3 p-2 border border-black bg-pinky-1">
+        <text-area-autosize name="home-input" 
+        class=" border border-black w-3/6 pl-1"
+        v-model="message.body"
+        />
+        <input
+        type="file"
+        ref="fileUpload"
+        class="hidden"
+        accept="image/*"
+        @change="onFileSelected"
+      />
+      <!--boutons pour choisir le fichier et modifier, dans commentaires-->
+      <div class="flex flex-row gap-3 w-3/6 items-center">
+        <p class="text-ox-bl">Choisir fichier :</p>
+        <button
+          class="
+            flex flex-row
+            gap-2
+            bg-an-br
+            p-1
+            border border-dotted border-rufous
+            animate-pulse
+          "
+          @click="$refs.fileUpload.click()"
+        >
+          <font-awesome-icon
+            icon="file-image"
+            class="file-image text-2xl text-rufous"
+          />
+        </button>
+
+        <input
+          type="button"
+          class="confirmer border border-black px-1 bg-an-br rounded-md"
+          value="confirmer"
+          @click.prevent="createPost"
+          tabindex="-1"
+        />
+      </div>
+          
         </div>
       </section>
     </div>
@@ -152,28 +148,32 @@
 import axios from "axios";
 import Header from "./Header.vue";
 import Comments from "./Comments.vue";
-import Reactions from "./Reactions.vue";
+import ReactionsHome from "./ReactionsHome.vue";
+import TextAreaAutosize from "./TextAreaAutosize.vue";
 export default {
   name: "Home",
   components: {
     Header,
     Comments,
-    Reactions,
-    
+    ReactionsHome,
+    TextAreaAutosize,
   },
   data() {
     return {
+      profiles: [],
+      Posts: [],
       message: {
         body: "",
         image: null,
       },
       PostsIndex: "",
+      selectedFile: null,
     };
   },
   computed: {
-    Posts() {
-      return this.$store.state.Posts; //permet d'afficher l'array en combiaison avec v-for
-    },
+    //Posts() {
+    //return this.$store.state.Posts; //permet d'afficher l'array en combiaison avec v-for
+    //},
   },
   async created() {
     //ici l'évènement est monté dont l'opération est finie. Il faut donc rafraichir la page ou créer une fonction qui rafraichit la page dès que le token est touché/ voir aussi eventBus comme solution plus légère
@@ -181,50 +181,94 @@ export default {
     if (!token) {
       this.$router.push({ name: "SignUp" });
     }
-    this.$store.dispatch("fetchAllPosts");
+    //this.$store.dispatch("fetchAllPosts");
     //const myPost = this.Posts.map((mypost)=>mypost.id); //exemple de maping
     //console.warn(myPost);
+    this.fetchPosts(); //rappelle ici
   },
   methods: {
     onFileSelected(event) {
-      this.message.image = event.target.files[0]; //it will take the first element in the event>target>files
+      this.selectedFile = event.target.files[0]; //it will take the first element in the event>target>files
       //to see the path in the console i can console warn(event)  (its for image upload)
+      console.warn(this.selectedFile);
     },
-    async createMessage(e) {
-      e.preventDefault();
-      const formData = new FormData();
-      //formData.append("image", this.message.image, this.message.image.name);
-      formData.append("body", this.message.body);
-      formData.append("userId", this.$store.state.userId);
-      let myMessage = await axios.post(
-        "http://localhost:4000/api/post",
-        formData,
-        {
-          headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
-      console.warn(myMessage);
+    
+    //create post
+    async createPost() {
+      if (this.selectedFile && this.message.body) {
+        const formData = new FormData();
+        formData.append("body", this.message.body);
+        formData.append("image", this.selectedFile, this.selectedFile.name);
+        formData.append("userId", this.$store.state.userId);
+        await axios
+          .post(
+            "http://localhost:4000/api/post",
+            formData,
+            {
+              headers: {
+                Authorization:
+                  "Bearer " + JSON.parse(localStorage.getItem("token")),
+              },
+            }
+          )
+          .then((response) => {
+            (this.message.body = ""), //enlève le contenu du mssage dans l'input
+              console.warn(response);
+            this.fetchPosts();
+          });
+      } else if (!this.selectedFile && this.message.body) {
+        const formData = new FormData();
+        formData.append("body", this.message.body);
+        //formData.append("image", this.selectedFile, this.selectedFile.name);
+        formData.append("userId", this.$store.state.userId);
+        await axios
+          .post(
+            "http://localhost:4000/api/post",
+            formData,
+            {
+              headers: {
+                Authorization:
+                  "Bearer " + JSON.parse(localStorage.getItem("token")),
+              },
+            }
+          )
+          .then((response) => {
+            (this.message.body = ""), //enlève le contenu du mssage dans l'input
+              console.warn(response);
+            this.fetchPosts();
+          });
+      } else if (this.selectedFile && !this.message.body) {
+        const formData = new FormData();
+        //formData.append("body", this.comment.body);
+        formData.append("image", this.selectedFile, this.selectedFile.name);
+        formData.append("userId", this.$store.state.userId);
+        await axios
+          .post(
+            "http://localhost:4000/api/post",
+            formData,
+            {
+              headers: {
+                Authorization:
+                  "Bearer " + JSON.parse(localStorage.getItem("token")),
+              },
+              onUploadProgress: (uploadEvent) => {
+                console.warn(
+                  "Upload Progress" +
+                    Math.round((uploadEvent.loaded / uploadEvent.total) * 100) +
+                    "%"
+                );
+              },
+            }
+          )
+          .then((response) => {
+            console.warn(response);
+            this.fetchPosts();
+          });
+      }
+      this.fetchPosts();
     },
-    async sendPicture(e) {
-      e.preventDefault();
-      const formData2 = new FormData();
-      formData2.append("image", this.message.image, this.message.image.name);
-      formData2.append("userId", this.userId);
-      let myFile = await axios.post(
-        "http://localhost:4000/api/post",
-        formData2,
-        {
-          headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
-      console.warn(myFile);
-    },
+
+    //deleting post
     async deletePost(Post) {
       //here ex: samy can only delete samy's messages
 
@@ -239,6 +283,22 @@ export default {
         }
       );
       console.warn(deletePost);
+      this.fetchPosts();
+    },
+
+    //ne maîtrisant pas encore les mutations, je vais créer un nouvel appel api pour les posts
+    async fetchPosts() {
+      await axios
+        .get("http://localhost:4000/api/post", {
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token")),
+          },
+        })
+        .then((response) => {
+          this.Posts = response.data;
+          console.warn(response);
+        });
     },
   },
 };
@@ -248,7 +308,7 @@ export default {
 .owner {
   background-color: #a40606;
   color: white;
-  margin-left: 10rem;
+  
 }
 .owner .router {
   background-color: #a40606;

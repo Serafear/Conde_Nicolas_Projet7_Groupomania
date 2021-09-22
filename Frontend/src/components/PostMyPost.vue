@@ -3,8 +3,8 @@
     id="post"
     class="
       flex flex-col
-      bg-black
-      text-snow
+      bg-pinky-1
+      text-ox-bl
       pb-4
       mt-10
       h-96
@@ -27,7 +27,7 @@
     </div>
 
     <!--ici on aura la suppression et la modif du message-->
-    <div class="flex flex-row gap-3 mt-7 pl-4">
+    <div v-if="mypost.user.id == this.$store.state.userId" class="flex flex-row gap-3 mt-7 pl-4">
       <input
         type="button"
         class="modifier border border-black p-1 rounded-md w-20"
@@ -46,7 +46,8 @@
     Les rows et cols gèrent la hauteur et longueur 
     -->
     <div class="textinput container flex flex-col gap-3"  v-if="isOpen">
-      <text-area-autosize name="send" v-model="form.body" />
+      <text-area-autosize class="border border-black border-solid w-64 ml-4 mt-4 text-black" 
+      name="send" v-model="form.body" rows="2"/>
       <!--ici boutons confirmer et input type file-->
       <div class="flex-col flex gap-3 ml-4">
         <input
@@ -128,7 +129,7 @@ export default {
           });
 
         //contrairement à l'opération dans CommentsMyPost
-        this.clear();
+        //this.clear();
       } else if (!this.selectedFile && this.form.body) {
         const formData = new FormData();
         //formData.append("image", this.message.image, this.message.image.name);
@@ -180,7 +181,7 @@ export default {
           });
 
         //contrairement à l'opération dans CommentsMyPost
-        this.clear();
+        //this.clear();
       }
       this.$emit("refetchPost");
     },

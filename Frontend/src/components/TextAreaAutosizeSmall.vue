@@ -15,7 +15,7 @@
      dans le parent. 
      -->
      <textarea 
-    class="textarea box-border w-52 mt-4 border border-black shadow-lg text-black" 
+    class="textarea " 
      rows="1"
      :name="name"
      :id="name"

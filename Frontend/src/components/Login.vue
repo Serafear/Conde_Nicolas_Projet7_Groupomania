@@ -4,16 +4,16 @@
     class="
       container
       bg-an-br
-      lg:w-screen
-      lg:h-screen
-      grid grid-flow-col
+      md:w-screen
+      md:h-screen
+      md:grid md:grid-flow-col
       justify-center
       items-center
     "
   >
     <div
       id="logo"
-      class="lg:h-4/6 lg:w-96 flex justify-center items-center bg-white"
+      class="md:overflow-hidden md:w-80 lg:h-4/6 lg:w-96 flex justify-center items-center bg-white"
     >
       <img alt="logo_project" src="../assets/icon-above-font.png" />
       <!--l'élément parent doit être en flex justify+item center-->
@@ -22,6 +22,8 @@
       id="login_form"
       class="
         bg-rufous
+        md:w-80
+        md:h-80
         lg:h-4/6
         lg:w-96
         flex flex-col
@@ -35,26 +37,27 @@
       <form class="flex flex-col pt-4 gap-2">
         <!--gap work with flex !!-->
         <label for="email" class="text-snow">EMAIL</label>
-        <input
+        <textarea
+        rows="1"
           type="email"
           id="email"
           name="email"
           v-model="email"
-          class="border-black border p-1 lg:w-60"
+          class="border-black border p-1 md:w-60 lg:w-64 focus:outline-none"
         />
         <label for="password" class="text-snow">Mot de passe</label>
-        <div class="flex flex-col justify-around">
+        <div class="flex flex-row justify-center">
           <input
             :type="passwordFieldType"
             v-model="password"
             id="password"
             name="password"
-            class="border-black border p-1"
+            class="border-black border md:w-52 p-1 border-r-0 focus:outline-none xl:resize-none xl:whitespace-nowrap xl:overflow-x-scroll"
           />
           <button
             v-on:click="switchVisibility"
             type="password"
-            class="absolute lg:ml-52 lg:mt-1"
+            class="bg-white border border-black border-l-0 px-1 md:px-2"
           >
             <font-awesome-icon icon="eye" class="lg:text-2xl" />
           </button>

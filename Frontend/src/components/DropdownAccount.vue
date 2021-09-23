@@ -13,7 +13,7 @@
         gap-2
         border
         rounded-xl
-        lg:p-2
+        lg:p-2 lg:text-xl
         md:px-1
         px-1
         items-center
@@ -40,7 +40,7 @@
       class="
         right-0
         absolute
-        mt-2 -mr-7
+        mt-2 -mr-5
         md:-mr-1 lg:-mr-4 xl:-mr-0
         lg:p-2 md:p-2
         lg:w-48 md:w-28 md:h-14

@@ -31,7 +31,10 @@
           id="chat space"
           class="bg-white w-5/6 h-5/6 overflow-auto overscroll-contain"
         >
-          <ul v-for="Post in Posts" :key="Post.id" :Post="Post">
+          <ul v-for="Post in Posts" :key="Post.id" :Post="Post"
+          class=" flex flex-col"
+          :class="{ Ulowner: Post.user.id == $store.state.userId }"
+          >
             <!--On va rajouter une classe conditionnelle: owner qu'on pourra styliser-->
 
             <li
@@ -41,7 +44,7 @@
                 flex flex-col
                 mb-5
                 mt-5
-                ml-2
+                ml-4
                 bg-lav-bl
                 rounded-xl
                 w-4/6
@@ -309,6 +312,10 @@ export default {
   background-color: #a40606;
   color: white;
   
+}
+.Ulowner {
+  align-items: flex-end;
+  margin-right: 1em;
 }
 .owner .router {
   background-color: #a40606;

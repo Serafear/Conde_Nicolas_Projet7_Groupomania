@@ -13,9 +13,13 @@
         gap-2
         border
         rounded-xl
-        p-2
+        lg:p-2
+        md:px-1
+        px-1
+        items-center
         bg-pinky-1
         text-ox-bl
+         text-sm
       "
     >
       <p>{{ nom }}</p>
@@ -36,23 +40,46 @@
       class="
         right-0
         absolute
-        mt-2
-        p-2
-        w-48
+        mt-2 -mr-7
+        md:-mr-1 lg:-mr-4 xl:-mr-0
+        lg:p-2 md:p-2
+        lg:w-48 md:w-28 md:h-14
+        w-28 h-24 flex justify-center items-center
         bg-white
         rounded-xl
         overflow-hidden
         shadow-xl
       "
     >
-      <router-link
-        :to="'/mypage/' + this.id"
-        class="block text-gunmetal hover:bg-lav-bl"
-        >Mon compte</router-link
-      >
-      <a @click="logout" href="#" class="block text-gunmetal hover:bg-lav-bl"
-        >Déconnexion</a
-      >
+      <ul>
+        <li>
+          <router-link
+            :to="'/mypage/' + this.id"
+            class="block text-gunmetal hover:bg-lav-bl"
+            >Mon compte</router-link
+          >
+        </li>
+        <li>
+          <a
+            @click="logout"
+            href="#"
+            class="block text-gunmetal hover:bg-lav-bl"
+            >Déconnexion</a
+          >
+        </li>
+
+        <li class=" text-ox-bl md:hidden lg:hidden">
+          <router-link to="/"
+            >Accueil <font-awesome-icon icon="home" class="lg:text-2xl"
+          /></router-link>
+        </li>
+        <li class=" text-ox-bl md:hidden lg:hidden">
+          Messages <font-awesome-icon icon="comment-alt" class="lg:text-2xl" />
+        </li>
+        <li class=" text-ox-bl md:hidden lg:hidden">
+          Notifications <font-awesome-icon icon="bell" class="lg:text-2xl" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>

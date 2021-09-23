@@ -1,16 +1,22 @@
 <template>
   <Header />
-  <h1 class="text-xl text-ox-bl mt-4">{{ message }} {{ user.nom }}</h1>
-  <p>
-    Pour modifier vottre profil <br />
-    remplissez tout le formulaire<br />
-    et appuyez sur le button
-  </p>
+  <section class="flex flex-col items-center">
+    <h1 class="md:text-xl font-bold text-ox-bl mt-10 md:mt-4">
+      {{ message }} {{ user.nom }}
+    </h1>
+    <div class="flex flex-col items-center">
+      <p>Pour le modifier, remplis</p>
+      <p> tout le formulaire et </p>
+      <p> appuis sur le button: modifier</p>
+    </div>
+  </section>
+
   <form
     id="input-forms"
     class="
       flex flex-col
-      lg:w-96
+      md:w-96
+      w-72
       gap-3
       justify-center
       items-center
@@ -19,7 +25,7 @@
     "
   >
     <div class="grid grid-flow-col gap-5 mt-3 justify-around">
-      <label for="nom" class="lg:w-16 text-snow">Nom: </label>
+      <label for="nom" class="w-16 text-snow">Nom: </label>
       <input
         type="text"
         id="nom"
@@ -28,14 +34,16 @@
         class="
           border border-black border-solid
           pl-2
-          lg:w-52
+          md:w-52
+          w-50
           bg-pinky-1
           rounded-md
+          focus:outline-none
         "
       />
     </div>
     <div class="grid grid-flow-col gap-5 justify-around">
-      <label for="prenom" class="lg:w-16 text-snow">Prénom: </label>
+      <label for="prenom" class="w-16 text-snow">Prénom: </label>
       <input
         type="text"
         id="prenom"
@@ -44,14 +52,16 @@
         class="
           border border-black border-solid
           pl-2
-          lg:w-52
+          md:w-52
+          w-50
           bg-pinky-1
           rounded-md
+          focus:outline-none
         "
       />
     </div>
     <div class="grid grid-flow-col gap-5 justify-around">
-      <label for="email" class="lg:w-16 text-snow">Email: </label>
+      <label for="email" class="w-16 text-snow">Email: </label>
       <input
         type="email"
         id="email"
@@ -60,34 +70,43 @@
         class="
           border border-black border-solid
           pl-2
-          lg:w-52
+          md:w-52
+          w-50
           bg-pinky-1
           rounded-md
+          focus:outline-none
         "
       />
     </div>
-    <div class="grid grid-flow-col gap-5 justify-around">
-      <label for="password" class="lg:w-16 text-snow">Password: </label>
-      <input
+    <div class="flex flex-row gap-5 justify-around">
+      <label for="password" class="w-16 text-snow">Password: </label>
+      <div class="flex items-center">
+         <textarea
+         rows="1"
         :type="passwordFieldType"
         v-model="user.password"
         id="password"
         name="password"
         class="
-          border border-black border-solid
+          border border-black border-solid border-r-0
           pl-2
-          lg:w-52
+          md:w-44
+          w-36
           bg-pinky-1
           rounded-md
+           rounded-r-none
+           focus:outline-none
         "
       />
       <button
         v-on:click="switchVisibility"
         type="password"
-        class="absolute ml-64 mt-0.5"
+        class="bg-pinky-1 border border-black border-l-0 rounded-r-md w-10 md:w-8"
       >
         <font-awesome-icon icon="eye" class="lg:text-xl" />
       </button>
+      </div>
+      
     </div>
     <button
       class="
@@ -104,8 +123,14 @@
     </button>
   </form>
   <div>
-    <p>Si vous désirez supprimer votre <br> compte cliquez ici: 
-      <router-link :to="'/delete/'+$store.state.userId" class=" underline hover:text-rufous">Supprimer</router-link>
+    <p>
+      Si vous désirez supprimer votre <br />
+      compte cliquez ici:
+      <router-link
+        :to="'/delete/' + $store.state.userId"
+        class="underline hover:text-rufous"
+        >Supprimer</router-link
+      >
     </p>
   </div>
 </template>
@@ -113,8 +138,9 @@
 <script>
 import Header from "./Header.vue";
 import axios from "axios";
+import TextAreaAutosizeSmall from './TextAreaAutosizeSmall.vue';
 export default {
-  components: { Header },
+  components: { Header, TextAreaAutosizeSmall },
   name: "MyPage",
   data() {
     return {

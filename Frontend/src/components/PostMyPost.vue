@@ -8,19 +8,20 @@
       pb-4
       mt-10
       h-96
-      w-2/4
-      overscroll-contain
-      overflow-auto
+      md:w-2/4 w-full
+      md:overscroll-contain
+      md:overflow-auto
     "
     :class="{ myPost: mypost.user.id == $store.state.userId }"
   >
     <!--ici, on aura le contenu du post. le v-bind="$attrs" arrête l'erreur: Extraneous non-props attributes
     L'autre methode c'est inheritAttrs: false déclarée dans OnePost-->
-    <div class="flex flex-col gap-4 ml-4 mt-3 w-c30">
+    <div class="flex flex-col gap-4 ml-4 mt-3 lg:w-c30">
       <span>{{ mypost.user.nom }}</span>
       <div class="flex flex-row gap-4">
         <span class="w-3/5 break-words">{{ mypost.body }} </span>
-        <img v-if="mypost.image" class="flex w-2/6" :src="mypost.image" alt="postPhoto" />
+        <img v-if="mypost.image" class="flex lg:w-2/6 w-2/6 mr-2" :src="mypost.image" alt="postPhoto" />
+        
       </div>
 
       <span>{{ mypost.user.createdAt }}</span>

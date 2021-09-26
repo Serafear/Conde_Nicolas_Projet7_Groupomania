@@ -41,11 +41,11 @@
         -right-3
         absolute
         z-20
-        mt-6
+        md:mt-5 mt-5
         text-gunmetal
         p-2
-        h-72
-        w-96
+        md:h-72 h-80
+        md:w-96 w-60
         bg-an-br
         rounded-xl rounded-b-none
         overscroll-contain
@@ -74,23 +74,23 @@
     <div
       v-if="isOpen"
       class="
-        -bottom-80
-        -mb-9
+        md:-bottom-80 -bottom-80
+        md:-mb-9 -mb-16
         -right-3
         absolute
-        w-96
+        md:w-96 w-60
         z-20
         text-gunmetal
         p-2
         bg-rufous
         rounded-xl rounded-t-none
         shadow-xl
-        flex flex-row
+        flex flex-col lg:flex-row
         gap-2
       "
     >
       <text-area-autosize-small
-        class="box-border w-3/6 border border-black shadow-lg text-black"
+        class="box-border md:w-4/6 w-5/6 border border-black shadow-lg text-black"
         name="input"
         v-if="isOpen"
         v-model:comment="comment.body"
@@ -103,8 +103,8 @@
         @change="onFileSelected"
       />
       <!--boutons pour choisir le fichier et modifier, dans commentaires-->
-      <div class="flex flex-row gap-2 w-3/6 items-center" v-if="isOpen">
-        <p class="text-snow">fichier :</p>
+      <div class="flex flex-row gap-2 md:w-5/6 w-64 items-center" v-if="isOpen">
+        <p class="text-snow"> choisir un fichier :</p>
         <button
           class="
             flex flex-row

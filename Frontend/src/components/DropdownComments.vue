@@ -1,6 +1,6 @@
 <template>
 <!--contenu texte, image, modif-->
-  <div class="flex flex-col gap-3 border border-black items-center w-60">
+  <div class="flex flex-col gap-3 border border-black items-center md:w-60">
     <img class="flex w-40 mt-2" :src="homecomment.image"/>
     <div class="border border-rufous p-2 w-40 flex justify-center">
       <span> {{homecomment.body}}</span>

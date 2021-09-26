@@ -12,7 +12,7 @@
       h-80
       overscroll-contain
       overflow-auto
-      lg:w-c32 md:w-2/4 w-full
+      lg:w-2/4 md:w-2/4 w-full
     "
     v-if="post.Comments && post.Comments.length"
   >
@@ -32,11 +32,11 @@
   </div>
   <!--ici, on aura la modif et suppression du post sous conditions-->
   <div
-    class="flex flex-col lg:flex-row justify-center items-center w-full lg:w-c32 md:w-2/4 gap-3 py-1 bg-rufous"
+    class="flex flex-col lg:flex-row justify-center items-center w-full lg:w-2/4 md:w-2/4 gap-3 py-1 bg-rufous"
   >
     <text-area-autosize
       name="file"
-      class="box-border w-3/6 ml-4 border border-black shadow-lg text-black"
+      class="box-border w-4/6 ml-4 border border-black shadow-lg text-black"
       v-model="message.body"
     />
     <div class="flex flex-row gap-3 w-full justify-around items-center">

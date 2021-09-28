@@ -25,7 +25,7 @@
     "
   >
     <div class="grid grid-flow-col gap-5 mt-3 justify-around">
-      <label for="nom" class="w-16 text-snow">Nom: </label>
+      <label for="nom" class="w-12 text-snow ml-3 md:ml-0">Nom: </label>
       <input
         type="text"
         id="nom"
@@ -35,7 +35,7 @@
           border border-black border-solid
           pl-2
           md:w-52
-          w-50
+          w-11/12
           bg-pinky-1
           rounded-md
           focus:outline-none
@@ -43,7 +43,7 @@
       />
     </div>
     <div class="grid grid-flow-col gap-5 justify-around">
-      <label for="prenom" class="w-16 text-snow">Prénom: </label>
+      <label for="prenom" class="w-12 text-snow ml-3 md:ml-0">Prénom: </label>
       <input
         type="text"
         id="prenom"
@@ -53,7 +53,7 @@
           border border-black border-solid
           pl-2
           md:w-52
-          w-50
+          w-11/12
           bg-pinky-1
           rounded-md
           focus:outline-none
@@ -61,8 +61,9 @@
       />
     </div>
     <div class="grid grid-flow-col gap-5 justify-around">
-      <label for="email" class="w-16 text-snow">Email: </label>
-      <input
+      <label for="email" class="w-12 text-snow ml-3 md:ml-0">Email: </label>
+      <textarea
+      rows="1"
         type="email"
         id="email"
         name="email"
@@ -71,7 +72,7 @@
           border border-black border-solid
           pl-2
           md:w-52
-          w-50
+           w-11/12
           bg-pinky-1
           rounded-md
           focus:outline-none

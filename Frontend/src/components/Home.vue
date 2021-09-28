@@ -10,8 +10,7 @@
           w-full
           h-56
           md:h-72
-          lg:w-2/6
-          lg:h-c50
+          lg:w-2/6 lg:h-c50
           bg-pal-si
           flex flex-col
           gap-3
@@ -28,16 +27,11 @@
             lg:flex-col
             w-80
             h-36
-            md:w-96
-            md:h-44
-            
-            lg:items-center
-            lg:h-full
+            md:w-96 md:h-44
+            lg:items-center lg:h-full
             overscroll-x-contain
             overflow-x-scroll overflow-y-hidden
-            lg:overscroll-y-contain
-            lg:overflox-y-scroll
-            lg:overflow-y-visible
+            lg:overscroll-y-contain lg:overflox-y-scroll lg:overflow-y-visible
           "
         >
           <!--for the overscroll, all elements need to have a width-->
@@ -143,12 +137,13 @@
           flex flex-col
           justify-center
           items-center
-          
         "
       >
         <h1>CHAT BOX</h1>
-        <div id="chat space" class="bg-white w-5/6 h-5/6 lg:overscroll-contain
-                 lg:overflow-auto">
+        <div
+          id="chat space"
+          class="bg-white w-5/6 h-5/6 lg:overscroll-contain lg:overflow-auto"
+        >
           <ul
             v-for="Post in Posts"
             :key="Post.id"
@@ -171,12 +166,12 @@
                 ml-2
                 bg-lav-bl
                 rounded-xl
-                lg:w-4/6 md:w-4/6
+                lg:w-4/6
+                md:w-4/6
                 w-60
                 p-1
                 px-3
                 break-normal
-                 
               "
             >
               <!--vu qu'on utilisera le props id dans OnePost.vue-->
@@ -184,7 +179,9 @@
                 <div class="flex flex-col mb-5 lg:w-5/6 px-1">
                   <span>{{ Post.user.nom }}</span>
                   <img class="w-24 md:w-48" :src="Post.image" />
-                  <span class="w-4/5 md:text-2xl break-words">{{ Post.body }}</span>
+                  <span class="w-4/5 md:text-2xl break-words">{{
+                    Post.body
+                  }}</span>
                   <span class="md:mt-2">{{ Post.user.createdAt }}</span>
                   <!--le v-if de la div cache le button supprimer et modifier 
                pour peux dont le post.user.id est différent du userId dans le
@@ -269,7 +266,15 @@
 
             <input
               type="button"
-              class="confirmer border border-black px-1 md:px-2 bg-an-br rounded-md md:text-lg"
+              class="
+                confirmer
+                border border-black
+                px-1
+                md:px-2
+                bg-an-br
+                rounded-md
+                md:text-lg
+              "
               value="confirmer"
               @click.prevent="createPost"
               tabindex="-1"
@@ -442,4 +447,3 @@ export default {
   @apply mr-2;
 }
 </style>
-

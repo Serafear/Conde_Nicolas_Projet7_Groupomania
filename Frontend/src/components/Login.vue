@@ -4,41 +4,64 @@
     class="
       container
       bg-an-br
-      md:w-screen
-      md:h-screen
-      md:grid md:grid-flow-col
+      h-screen
+      sm:mr-7
+      md:mr-0 md:w-screen md:h-screen md:grid md:grid-flow-col
       justify-center
       items-center
     "
   >
     <div
       id="logo"
-      class="md:overflow-hidden md:w-80 lg:h-4/6 lg:w-96 flex justify-center items-center bg-white"
+      class="
+        h-1/3
+        overflow-hidden
+        md:w-80 md:h-2/4 md:mb-14
+        lg:mb-0 lg:h-4/6 lg:w-96
+        flex
+        justify-center
+        items-center
+        bg-white
+      "
     >
-      <img alt="logo_project" src="../assets/icon-above-font.png" />
+      <img
+        alt="logo_project"
+        class="sm:h-56"
+        src="../assets/icon-above-font.png"
+      />
       <!--l'élément parent doit être en flex justify+item center-->
     </div>
     <section
       id="login_form"
       class="
         bg-rufous
-        md:w-80
-        md:h-80
-        lg:h-4/6
-        lg:w-96
+        h-2/3
+        sm:w-screen
+        md:w-80 md:h-2/4 md:mb-14
+        lg:mb-0 lg:h-4/6 lg:w-96
         flex flex-col
         justify-center
         items-center
       "
     >
-      <h1 class="flex justify-center items-center text-snow">
+      <h1
+        class="flex justify-center items-center text-snow sm:text-sm md:text-lg"
+      >
         Connectez-vous à votre compte
       </h1>
-      <form class="flex flex-col pt-4 gap-2">
+      <form
+        class="
+          flex flex-col
+          pt-4
+          gap-2
+          sm:h-2/3 sm:mr-60 sm:mb-14
+          md:mr-0 md:mb-0
+        "
+      >
         <!--gap work with flex !!-->
         <label for="email" class="text-snow">EMAIL</label>
         <textarea
-        rows="1"
+          rows="1"
           type="email"
           id="email"
           name="email"
@@ -52,7 +75,14 @@
             v-model="password"
             id="password"
             name="password"
-            class="border-black border md:w-52 p-1 border-r-0 focus:outline-none xl:resize-none xl:whitespace-nowrap xl:overflow-x-scroll"
+            class="
+              border-black border
+              md:w-52
+              p-1
+              border-r-0
+              focus:outline-none
+              xl:resize-none xl:whitespace-nowrap xl:overflow-x-scroll
+            "
           />
           <button
             v-on:click="switchVisibility"
@@ -71,10 +101,26 @@
           class="rounded-xl border-black border p-1 mt-4 bg-grullo"
         />
       </form>
-      <p class="text-sm mt-3 text-snow">
+      <p
+        class="
+          text-sm
+          mt-3
+          text-snow
+          sm:col-span-1 sm:absolute sm:ml-72
+          md:relative md:ml-0 md:mt-0
+        "
+      >
         Si vous n'avez pas de compte cliquez ici :
       </p>
-      <router-link to="/signup" class="text-snow font-bold underline"
+      <router-link
+        to="/signup"
+        class="
+          text-snow
+          font-bold
+          underline
+          sm:absolute sm:ml-72 sm:mt-14
+          md:relative md:ml-0 md:mt-0
+        "
         >INSCRIPTION</router-link
       >
     </section>
@@ -140,6 +186,3 @@ export default {
   },
 };
 </script>
-
-
-

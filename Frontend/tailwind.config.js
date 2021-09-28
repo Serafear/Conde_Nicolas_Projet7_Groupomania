@@ -59,4 +59,8 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  purge: [
+    './public/**/*.html',
+    './src/**/*.vue'
+  ]
 }

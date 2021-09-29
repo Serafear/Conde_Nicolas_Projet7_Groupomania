@@ -60,8 +60,7 @@
       >
         <!--gap work with flex !!-->
         <label for="email" class="text-snow">EMAIL</label>
-        <textarea
-          rows="1"
+        <input
           type="email"
           id="email"
           name="email"

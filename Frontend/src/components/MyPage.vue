@@ -176,7 +176,9 @@ export default {
       this.passwordFieldType =
         this.passwordFieldType === "password" ? "text" : "password";
     },
-    async updateInfos() {
+    async updateInfos(e) {
+      e.preventDefault();
+
       let fetchUpdate = await axios.put(
         "http://localhost:4000/api/user/" + this.$route.params.userId,
         {

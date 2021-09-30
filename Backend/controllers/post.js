@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
-/* pour avoir accès au système de fichier pour delete les données 
-dans la base de donnée */
-const fs = require("fs"); //file system
 
-/*  on importe jwt */
+const fs = require("fs");
+
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "./config.env" });
 
@@ -12,13 +10,6 @@ const { sequelize, Comment, User, Post, Reactions } = require("../models");
 const { Model } = require("sequelize");
 const { up } = require("../migrations/20210802105548-create-post");
 
-
-/*pour tester dans insomnia :
-choisir multipart form 
-ensuite, dans le premier new name mettre body et dans new value mettre le message
-puis dans le deuxième new name mettre image puis changer le new value en file
-dans le troisième new name mettre userId et dans new value mettre 1 ou X
-x étant le userId auquel associé le message */
 exports.createPost = async function (req, res) {
   const { userId, body } = req.body;
   const postObject = req.file;
@@ -73,7 +64,13 @@ exports.createPost = async function (req, res) {
 
 exports.getAllPosts = async function (req, res) {
   try {
-    const post = await Post.findAll({ include: [{ model: User, as: "user" }, {model: Comment}, {model: Reactions}] }); //declared in model post associations
+    const post = await Post.findAll({
+      include: [
+        { model: User, as: "user" },
+        { model: Comment },
+        { model: Reactions },
+      ],
+    }); //declared in model post associations
     return res.status(201).json(post);
   } catch (error) {
     console.log(error);
@@ -85,7 +82,11 @@ exports.getOnePost = async function (req, res) {
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
-      include: [{ model: User, as: "user" }, {model: Comment}, {model: Reactions}], // declared in model post association
+      include: [
+        { model: User, as: "user" },
+        { model: Comment },
+        { model: Reactions },
+      ], // declared in model post association
     });
     return res.status(201).json(post);
   } catch (error) {
@@ -98,57 +99,47 @@ exports.updatePost = async function (req, res) {
   const post = await Post.findOne({
     where: { id: req.params.postId },
   });
-  const { body } = req.body; //indispensable
+  const { body } = req.body;
   const upObject = req.file;
   console.log(req.params.image);
-  //image doit être déclaré à l'extérieur pour être utilisable avec un post.image
-   if(!post.image && upObject){ //si dans le post après recherche where, il n'y a pas d'image alors
+
+  if (!post.image && upObject) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-        //on utilise multer
         req.file.filename
-        
       }`;
       const filename = await image.split("/images/")[1];
-        post.body = body; //cette forme est la seule qui fonctionne
-        post.image = image;
-        post.save();
-        return res
-          .status(201)
-          .json([post, { message: "post & image maj !" }]);
+      post.body = body;
+      post.image = image;
+      post.save();
+      return res.status(201).json([post, { message: "post & image maj !" }]);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
     }
-  }
-  else if(upObject && !body){ //si il n'y a pas de requete body dans la demande d'update
+  } else if (upObject && !body) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-        //on utilise multer
         req.file.filename
       }`;
       const filename = await post.image.split("/images/")[1];
       await fs.unlink(`images/${filename}`, () => {
         post.image = image;
         post.save();
-        return res
-          .status(201)
-          .json([post, { message: "image updated !" }]);
+        return res.status(201).json([post, { message: "image updated !" }]);
       });
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
     }
-  }
-  else if (upObject && post.image) {
+  } else if (upObject && post.image) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-        //on utilise multer
         req.file.filename
       }`;
       const filename = await post.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
-        post.body = body; //cette forme est la seule qui fonctionne
+        post.body = body;
         post.image = image;
         post.save();
         return res

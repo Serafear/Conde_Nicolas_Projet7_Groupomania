@@ -1,11 +1,10 @@
-const fs = require("fs"); //file system
+const fs = require("fs");
 
 require("dotenv").config({ path: "./config.env" });
 
 const { sequelize, User, Post, Reactions } = require("../models");
 
 const { Model } = require("sequelize");
-
 
 exports.createReaction = async function (req, res) {
   const { userId, postId } = req.body;
@@ -17,12 +16,10 @@ exports.createReaction = async function (req, res) {
   try {
     const [reaction, created] = await Reactions.findOrCreate({
       where: { userId: user.id, postId: post.id },
-    
-      
     });
     if (created && Liked) {
       reaction.isLike = Liked;
-      
+
       await reaction.save();
       return res
         .status(201)
@@ -34,11 +31,9 @@ exports.createReaction = async function (req, res) {
         .status(201)
         .json([reaction, { message: "vous avez disliké ce message !" }]);
     } else {
-      //ici il faut recupérer l'ancienne réaction et la mettre à jour
       await reaction.update(
         {
-          isLike: req.body.isLike, // il va recupérer l'info demandée : ligne 4 insomnia create reaction
-          //il fait reférence au body de la REQUETE envoyée dans insomnia par exemple
+          isLike: req.body.isLike,
         },
         {
           where: { userId: user.id, postId: post.id },
@@ -55,7 +50,12 @@ exports.createReaction = async function (req, res) {
 };
 exports.getAllReactions = async function (req, res) {
   try {
-    const reaction = await Reactions.findAll({ include: [{ model: User, as: "user" }, {model: Post, as: "post"}] }); //declared in model associations
+    const reaction = await Reactions.findAll({
+      include: [
+        { model: User, as: "user" },
+        { model: Post, as: "post" },
+      ],
+    }); //declared in model associations
     return res.status(201).json(reaction);
   } catch (error) {
     console.log(error);
@@ -72,7 +72,7 @@ exports.getOneReaction = async function (req, res) {
           as: "post",
           include: [{ model: User, as: "user" }],
         },
-      ], // declared in models association
+      ],
     });
     return res.status(201).json(reaction);
   } catch (error) {

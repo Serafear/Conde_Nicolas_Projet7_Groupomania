@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    await queryInterface.createTable('comments', {
+    await queryInterface.createTable("comments", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,9 +9,8 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       uuid: {
-        //for best practice : a uuid is a Universally Unique Identifier
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4, //the v4 is a randomly generated UUID
+        defaultValue: DataTypes.UUIDV4,
       },
       body: {
         type: DataTypes.STRING,
@@ -23,23 +22,23 @@ module.exports = {
       },
       postId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE
-      }
+        type: DataTypes.DATE,
+      },
     });
   },
   down: async (queryInterface, DataTypes) => {
-    await queryInterface.dropTable('comments');
-  }
+    await queryInterface.dropTable("comments");
+  },
 };

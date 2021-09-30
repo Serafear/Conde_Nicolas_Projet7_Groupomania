@@ -1,4 +1,4 @@
-const fs = require("fs"); //file system
+const fs = require("fs");
 
 require("dotenv").config({ path: "./config.env" });
 
@@ -64,8 +64,11 @@ exports.createComment = async function (req, res) {
 exports.getAllComments = async function (req, res) {
   try {
     const comment = await Comment.findAll({
-      include: [{ model: User, as: "user" }, {model: Post, as:"post", include:[{model: Comment}]}],
-    }); //declared in model post associations
+      include: [
+        { model: User, as: "user" },
+        { model: Post, as: "post", include: [{ model: Comment }] },
+      ],
+    });
     return res.status(201).json(comment);
   } catch (error) {
     console.log(error);
@@ -77,7 +80,10 @@ exports.getOneComment = async function (req, res) {
   try {
     const comment = await Comment.findOne({
       where: { id: req.params.commentId },
-      include: [{ model: User, as: "user" }, {model: Post, as:"post", include:[{model: Comment}]}], // declared in models association
+      include: [
+        { model: User, as: "user" },
+        { model: Post, as: "post", include: [{ model: Comment }] },
+      ], // declared in models association
     });
     return res.status(201).json(comment);
   } catch (error) {
@@ -90,17 +96,16 @@ exports.updateComment = async function (req, res) {
   const comment = await Comment.findOne({
     where: { id: req.params.commentId },
   });
-  const { body } = req.body; //indispensable
-  //image doit être déclaré à l'extérieur pour être utilisable avec un post.image
+  const { body } = req.body;
+
   if (req.file && !comment.image) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-        //on utilise multer
         req.file.filename
       }`;
-      const filename = await image.split("/images/")[1]; //pas comment.image mais simplement image
+      const filename = await image.split("/images/")[1];
 
-      comment.body = body; //cette forme est la seule qui fonctionne
+      comment.body = body;
       comment.image = image;
       comment.save();
       return res
@@ -113,7 +118,6 @@ exports.updateComment = async function (req, res) {
   } else if (req.file && !body) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-        //on utilise multer
         req.file.filename
       }`;
       const filename = await comment.image.split("/images/")[1];
@@ -129,12 +133,11 @@ exports.updateComment = async function (req, res) {
   } else if (req.file && comment.image) {
     try {
       const image = `${req.protocol}://${req.get("host")}/images/${
-        //on utilise multer
         req.file.filename
       }`;
       const filename = await comment.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
-        comment.body = body; //cette forme est la seule qui fonctionne
+        comment.body = body;
         comment.image = image;
         comment.save();
         return res

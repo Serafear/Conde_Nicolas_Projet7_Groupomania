@@ -1,55 +1,55 @@
-'use strict';
+"use strict";
 module.exports = {
-  up: async (queryInterface, DataTypes) => {// up create the table and we change sequelize to DataTypes
-    await queryInterface.createTable('users', { //name changed from Users to users, we changed it previously
+  up: async (queryInterface, DataTypes) => {
+    await queryInterface.createTable("users", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        //type: Sequelize.INTEGER  we change all sequelize to Datatypes
-        type: DataTypes.INTEGER
+
+        type: DataTypes.INTEGER,
       },
-      uuid : {  
-        type : DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4  
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
       },
       nom: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate : {
-          is: /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/gm
-        }
+        validate: {
+          is: /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/gm,
+        },
       },
       prenom: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate : {
-          is: /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/gm
-        }
+        validate: {
+          is: /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/gm,
+        },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate : {
+        validate: {
           is: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
-        }
+        },
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE
-      }
+        type: DataTypes.DATE,
+      },
     });
   },
-  down: async (queryInterface, Datatypes) => { //down undo the migration and drop the table and we change sequelize to DataTypes
-    await queryInterface.dropTable('users');
-  }
+  down: async (queryInterface, Datatypes) => {
+    await queryInterface.dropTable("users");
+  },
 };

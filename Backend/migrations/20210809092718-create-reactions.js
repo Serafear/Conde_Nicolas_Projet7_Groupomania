@@ -10,16 +10,15 @@ module.exports = {
       },
       postId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       uuid: {
-        //for best practice : a uuid is a Universally Unique Identifier
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4, //the v4 is a randomly generated UUID
+        defaultValue: DataTypes.UUIDV4,
       },
       isLike: {
         type: DataTypes.STRING,

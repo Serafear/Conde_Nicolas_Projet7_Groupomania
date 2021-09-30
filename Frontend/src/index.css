@@ -1,15 +1,6 @@
-/* ./src/index.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
-/* cet élément me permet de changer le css directement même pour des classes conditionnelles
-je peux également le faire dans le scoped css, cela peut simplifier complètement
-la lecture du html
-@layer components {
-    .Ulowner {
-      @apply mr-
-    }
-  }
-  */

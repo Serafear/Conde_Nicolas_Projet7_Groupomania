@@ -19,14 +19,12 @@
         border-black
       "
     >
-      <!--le z-index ne peut pas marcher sans une position ex: relative-->
       <font-awesome-icon
         icon="comment"
         class="comment text-2xl text-rufous mt-1"
       />
       <p>{{ Post.id }}</p>
     </button>
-    <!--on va crée un bouton qui va fermer le toggle si on appui en dehors du toggle-->
     <button
       id="exit-button"
       v-if="isOpen"
@@ -34,18 +32,20 @@
       tabindex="-1"
       class="fixed inset-0 h-full w-full bg-ox-bl bg-opacity-50 cursor-default"
     ></button>
-    <!--le tab index -1 rend le bouton inaccessible aux manips clavier et inset fait top mid left right-0-->
     <div
       v-if="isOpen"
       class="
         -right-3
         absolute
         z-20
-        md:mt-5 mt-5
+        md:mt-5
+        mt-5
         text-gunmetal
         p-2
-        md:h-72 h-80
-        md:w-96 w-60
+        md:h-72
+        h-80
+        md:w-96
+        w-60
         bg-an-br
         rounded-xl rounded-b-none
         overscroll-contain
@@ -62,35 +62,39 @@
         :homecomment="homecomment"
         @refetchPost="refreshPost"
       />
-      <!--dropdown-comment est équivalent a DropdownComment.
-    :key et :homecomment ainsi que le props dans DropdownComment 
-    sont indispensable pour la lecture du Post.id.
-    Pourquoi homecomment ? parceque le propos comment était déja
-    prit et son utilisation crée un bug, ici
-    -->
-      <!--contenu crée commentaire-->
     </div>
 
     <div
       v-if="isOpen"
       class="
-        md:-bottom-80 -bottom-80
-        md:-mb-9 -mb-16
+        md:-bottom-80
+        -bottom-80
+        md:-mb-9
+        -mb-16
         -right-3
         absolute
-        md:w-96 w-60
+        md:w-96
+        w-60
         z-20
         text-gunmetal
         p-2
         bg-rufous
         rounded-xl rounded-t-none
         shadow-xl
-        flex flex-col lg:flex-row
+        flex flex-col
+        lg:flex-row
         gap-2
       "
     >
       <text-area-autosize-small
-        class="box-border md:w-4/6 w-5/6 border border-black shadow-lg text-black"
+        class="
+          box-border
+          md:w-4/6
+          w-5/6
+          border border-black
+          shadow-lg
+          text-black
+        "
         name="input"
         v-if="isOpen"
         v-model:comment="comment.body"
@@ -102,9 +106,9 @@
         accept="image/*"
         @change="onFileSelected"
       />
-      <!--boutons pour choisir le fichier et modifier, dans commentaires-->
+
       <div class="flex flex-row gap-2 md:w-5/6 w-64 items-center" v-if="isOpen">
-        <p class="text-snow"> choisir un fichier :</p>
+        <p class="text-snow">choisir un fichier :</p>
         <button
           class="
             flex flex-row
@@ -140,7 +144,7 @@ import DropdownComments from "./DropdownComments.vue";
 import TextAreaAutosizeSmall from "./TextAreaAutosizeSmall.vue";
 export default {
   name: "Comments",
-  props: ["Post"], //props ne fonctionne que parceque comment est enfant de Home ?
+  props: ["Post"],
   emits: [],
   components: {
     DropdownComments,
@@ -160,26 +164,9 @@ export default {
     };
   },
   async created() {
-    //this.fetchComments();
-    this.refreshPost(); //rappelle ici
+    this.refreshPost();
   },
   methods: {
-    /*async fetchComments(){
-       await axios.get(
-        `http://localhost:4000/api/post/${this.Post.id}/comment`,
-        {
-          headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      )
-      .then((response) => {
-            
-            console.warn(response);
-          });
-      
-    },*/
     async refreshPost() {
       let fetchPost = await axios.get(
         `http://localhost:4000/api/post/${this.Post.id}`,
@@ -194,9 +181,8 @@ export default {
       this.pc = fetchPost.data;
     },
 
-    //needed to create comment
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0]; //it will take the first element in the event>target>files
+      this.selectedFile = event.target.files[0];
       console.warn(this.selectedFile);
     },
     async createComment() {
@@ -218,14 +204,12 @@ export default {
             }
           )
           .then((response) => {
-            (this.comment.body = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.comment.body = ""), console.warn(response);
             this.refreshPost();
           });
       } else if (!this.selectedFile && this.comment.body) {
         const formData = new FormData();
         formData.append("body", this.comment.body);
-        //formData.append("image", this.selectedFile, this.selectedFile.name);
         formData.append("userId", this.$store.state.userId);
         formData.append("postId", this.Post.id);
         await axios
@@ -240,13 +224,12 @@ export default {
             }
           )
           .then((response) => {
-            (this.comment.body = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.comment.body = ""), console.warn(response);
             this.refreshPost();
           });
       } else if (this.selectedFile && !this.comment.body) {
         const formData = new FormData();
-        //formData.append("body", this.comment.body);
+
         formData.append("image", this.selectedFile, this.selectedFile.name);
         formData.append("userId", this.$store.state.userId);
         formData.append("postId", this.Post.id);
@@ -294,4 +277,3 @@ export default {
   color: white;
 }
 </style>
-

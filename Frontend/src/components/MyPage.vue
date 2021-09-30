@@ -6,8 +6,8 @@
     </h1>
     <div class="flex flex-col items-center">
       <p>Pour le modifier, remplis</p>
-      <p> tout le formulaire et </p>
-      <p> appuis sur le button: modifier</p>
+      <p>tout le formulaire et</p>
+      <p>appuis sur le button: modifier</p>
     </div>
   </section>
 
@@ -63,7 +63,7 @@
     <div class="grid grid-flow-col gap-5 justify-around">
       <label for="email" class="w-12 text-snow ml-3 md:ml-0">Email: </label>
       <textarea
-      rows="1"
+        rows="1"
         type="email"
         id="email"
         name="email"
@@ -72,7 +72,7 @@
           border border-black border-solid
           pl-2
           md:w-52
-           w-11/12
+          w-11/12
           bg-pinky-1
           rounded-md
           focus:outline-none
@@ -82,32 +82,36 @@
     <div class="flex flex-row gap-5 justify-around">
       <label for="password" class="w-16 text-snow">Password: </label>
       <div class="flex items-center">
-         <textarea
-         rows="1"
-        :type="passwordFieldType"
-        v-model="user.password"
-        id="password"
-        name="password"
-        class="
-          border border-black border-solid border-r-0
-          pl-2
-          md:w-44
-          w-36
-          bg-pinky-1
-          rounded-md
-           rounded-r-none
-           focus:outline-none
-        "
-      />
-      <button
-        v-on:click="switchVisibility"
-        type="password"
-        class="bg-pinky-1 border border-black border-l-0 rounded-r-md w-10 md:w-8"
-      >
-        <font-awesome-icon icon="eye" class="lg:text-xl" />
-      </button>
+        <textarea
+          rows="1"
+          :type="passwordFieldType"
+          v-model="user.password"
+          id="password"
+          name="password"
+          class="
+            border border-black border-solid border-r-0
+            pl-2
+            md:w-44
+            w-36
+            bg-pinky-1
+            rounded-md rounded-r-none
+            focus:outline-none
+          "
+        />
+        <button
+          v-on:click="switchVisibility"
+          type="password"
+          class="
+            bg-pinky-1
+            border border-black border-l-0
+            rounded-r-md
+            w-10
+            md:w-8
+          "
+        >
+          <font-awesome-icon icon="eye" class="lg:text-xl" />
+        </button>
       </div>
-      
     </div>
     <button
       class="
@@ -139,7 +143,7 @@
 <script>
 import Header from "./Header.vue";
 import axios from "axios";
-import TextAreaAutosizeSmall from './TextAreaAutosizeSmall.vue';
+import TextAreaAutosizeSmall from "./TextAreaAutosizeSmall.vue";
 export default {
   components: { Header, TextAreaAutosizeSmall },
   name: "MyPage",
@@ -167,8 +171,8 @@ export default {
       }
     );
     console.warn(fetchMyPage);
-    delete fetchMyPage.data.password; //it delete the value of pasword before being defined in user
-    this.user = fetchMyPage.data; //it prefil the value of nom, prenom, etc...
+    delete fetchMyPage.data.password;
+    this.user = fetchMyPage.data;
   },
   methods: {
     switchVisibility(e) {

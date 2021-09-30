@@ -29,7 +29,6 @@
         class="sm:h-56"
         src="../assets/icon-above-font.png"
       />
-      <!--l'élément parent doit être en flex justify+item center-->
     </div>
     <section
       id="login_form"
@@ -58,7 +57,6 @@
           md:mr-0 md:mb-0
         "
       >
-        <!--gap work with flex !!-->
         <label for="email" class="text-snow">EMAIL</label>
         <input
           type="email"
@@ -127,7 +125,6 @@
 </template>
 
 <script>
-//import axios from 'axios'
 export default {
   name: "Login",
   data() {
@@ -138,18 +135,6 @@ export default {
     };
   },
   methods: {
-    /*async login(){
-      let fetchLogin = await axios.post(`http://localhost:4000/api/user/login/?email=${this.email}`,{
-        email: this.email,
-        password: this.password
-      });
-      console.warn(fetchLogin);
-      if(fetchLogin.status==200){ // another condition but dont work: fetchLogin.status==200 && fetchLogin.data.length>0
-          localStorage.setItem("token", JSON.stringify(fetchLogin.data.token));
-          this.$router.push({name:'Home'})
-      }
-    },*/
-    //fetch without axios
     async login() {
       const fetchLogin = await fetch("http://localhost:4000/api/user/login", {
         method: "POST",
@@ -165,7 +150,6 @@ export default {
       const loginData = await fetchLogin.json();
       console.warn(loginData);
       if (fetchLogin.status == 200) {
-        // another condition but dont work: fetchLogin.status==200 && fetchLogin.data.length>0
         localStorage.setItem("token", JSON.stringify(loginData.token));
         localStorage.setItem("userId", JSON.stringify(loginData.userId));
         this.$router.push({ name: "Home" });

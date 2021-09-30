@@ -47,7 +47,6 @@
             text-xs
           "
         >
-          <!--md:block permet d'afficher les éléments pour les autres screen size malgré le hidden-->
           <li class="hidden md:block">
             <router-link to="/"
               >Accueil <font-awesome-icon icon="home" class="lg:text-2xl"

@@ -1,8 +1,7 @@
-<template >
+<template>
   <Header />
   <post-my-post :mypost="post" @refetchPost="refreshPost" />
 
-  <!--ici, on aura les reactions-->
   <Reactions :reactions="post.Reactions" @refetchPost="refreshPost" />
   <div
     class="
@@ -12,7 +11,9 @@
       h-80
       overscroll-contain
       overflow-auto
-      lg:w-2/4 md:w-2/4 w-full
+      lg:w-2/4
+      md:w-2/4
+      w-full
     "
     v-if="post.Comments && post.Comments.length"
   >
@@ -23,16 +24,24 @@
       :key="comment.id"
       :comment="comment"
     />
-    <!--on a changé le backend pour inclure comments dans le post. le :comments passera les commentaires en props SUPER IMPORTANT ET PRATIQUE-->
-    <!--le @refreshPost est la fonction crée dans le methods en relation avec le $emit chez l'enfant-->
   </div>
   <div v-else class="w-c30 h-40 flex justify-center items-center">
     <p class="font-bold text-2xl">Aucun commentaire</p>
-
   </div>
-  <!--ici, on aura la modif et suppression du post sous conditions-->
+
   <div
-    class="flex flex-col lg:flex-row justify-center items-center w-full lg:w-2/4 md:w-2/4 gap-3 py-1 bg-rufous"
+    class="
+      flex flex-col
+      lg:flex-row
+      justify-center
+      items-center
+      w-full
+      lg:w-2/4
+      md:w-2/4
+      gap-3
+      py-1
+      bg-rufous
+    "
   >
     <text-area-autosize
       name="file"
@@ -40,40 +49,39 @@
       v-model="message.body"
     />
     <div class="flex flex-row gap-3 w-full justify-around items-center">
-       <p class="font-bold">Choisir un fichier :</p>
-    <input
-      type="file"
-      ref="fileUpload"
-      class="hidden"
-      accept="image/*"
-      @change="onFileSelected"
-    />
-    <button
-      class="
-        flex flex-row
-        gap-2
-        bg-an-br
-        p-1
-        border border-dotted border-rufous
-        animate-pulse
-      "
-      @click="$refs.fileUpload.click()"
-    >
-      <font-awesome-icon
-        icon="file-image"
-        class="file-image text-2xl text-rufous"
+      <p class="font-bold">Choisir un fichier :</p>
+      <input
+        type="file"
+        ref="fileUpload"
+        class="hidden"
+        accept="image/*"
+        @change="onFileSelected"
       />
-    </button>
+      <button
+        class="
+          flex flex-row
+          gap-2
+          bg-an-br
+          p-1
+          border border-dotted border-rufous
+          animate-pulse
+        "
+        @click="$refs.fileUpload.click()"
+      >
+        <font-awesome-icon
+          icon="file-image"
+          class="file-image text-2xl text-rufous"
+        />
+      </button>
 
-    <input
-      type="button"
-      class="confirmer border border-black px-1 bg-an-br rounded-md"
-      value="confirmer"
-      @click="createComment"
-      tabindex="-1"
-    />
+      <input
+        type="button"
+        class="confirmer border border-black px-1 bg-an-br rounded-md"
+        value="confirmer"
+        @click="createComment"
+        tabindex="-1"
+      />
     </div>
-    
   </div>
 </template>
 
@@ -86,9 +94,8 @@ import PostMyPost from "./PostMyPost.vue";
 import TextAreaAutosize from "./TextAreaAutosize.vue";
 export default {
   name: "OnePost",
-  inheritAttrs: false, //stop the Extraneous non-props attributess
-  //props: ["id"],
-  //props:["Post"],
+  inheritAttrs: false,
+
   components: {
     Header,
     Reactions,
@@ -113,23 +120,16 @@ export default {
       },
     };
   },
-  computed: {
-    //Post() {
-    //   return this.$store.state.Post;
-    // },
-  },
+  computed: {},
   async created() {
-    //methode store :await this.$store.dispatch("fetchPost", this.id); ne fonctionne pas en l'état
-
-    this.refreshPost(); //rappelle ici
+    this.refreshPost();
   },
   methods: {
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0]; //it will take the first element in the event>target>files
+      this.selectedFile = event.target.files[0];
       console.warn(this.selectedFile);
     },
 
-    //suite du code $emit. crée une fonction qui sera appellée pour rafraichir le parent (méthode props)
     async refreshPost() {
       let fetchPost = await axios.get(
         "http://localhost:4000/api/post/" + this.$route.params.postId,
@@ -147,7 +147,7 @@ export default {
     async createComment() {
       if (!this.selectedFile && this.message.body) {
         const formData = new FormData();
-        //formData.append("image", this.message.image, this.message.image.name);
+
         formData.append("body", this.message.body);
         formData.append("userId", this.$store.state.userId);
         formData.append("postId", this.$route.params.postId);
@@ -163,13 +163,12 @@ export default {
             }
           )
           .then((response) => {
-            (this.message.body = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.message.body = ""), console.warn(response);
             this.refreshPost();
           });
       } else if (this.selectedFile && !this.message.body) {
         const formData = new FormData();
-        //formData.append("image", this.message.image, this.message.image.name);
+
         formData.append("image", this.selectedFile, this.selectedFile.name);
         formData.append("userId", this.$store.state.userId);
         formData.append("postId", this.$route.params.postId);
@@ -190,7 +189,7 @@ export default {
           });
       } else if (this.selectedFile && this.message.body) {
         const formData = new FormData();
-        //formData.append("image", this.message.image, this.message.image.name);
+
         formData.append("image", this.selectedFile, this.selectedFile.name);
         formData.append("body", this.message.body);
         formData.append("userId", this.$store.state.userId);
@@ -215,4 +214,3 @@ export default {
   },
 };
 </script>
-

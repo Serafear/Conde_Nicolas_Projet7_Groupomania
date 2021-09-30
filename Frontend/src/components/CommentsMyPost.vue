@@ -14,12 +14,14 @@
     <img class="flex w-28 mt-2" :src="comment.image" />
     <p>{{ comment.body }}</p>
     <div class="flex flex-row gap-3 mb-2">
-      <button class="text-black border border-solid border-black px-1 rounded-md"
-      @click="isOpen = !isOpen"
+      <button
+        class="text-black border border-solid border-black px-1 rounded-md"
+        @click="isOpen = !isOpen"
       >
         modifier
       </button>
-      <button class="text-black border border-solid border-black px-1 rounded-md"
+      <button
+        class="text-black border border-solid border-black px-1 rounded-md"
         @click="deleteComment(comment)"
       >
         supprimer
@@ -38,7 +40,6 @@
       accept="image/*"
       @change="onFileSelected"
     />
-    <!--boutons pour choisir le fichier et modifier, dans commentaires-->
     <div class="flex flex-row gap-3 items-center mt-2" v-if="isOpen">
       <p>Choisir fichier :</p>
       <button
@@ -62,7 +63,7 @@
         type="button"
         class="confirmer border border-black px-1 bg-an-br rounded-md"
         value="confirmer"
-        @click.prevent="modifyComment(comment), this.isOpen = false"
+        @click.prevent="modifyComment(comment), (this.isOpen = false)"
         tabindex="-1"
       />
     </div>
@@ -80,8 +81,6 @@ export default {
   props: ["comments", "comment"],
   data() {
     return {
-      //comments: [],
-      
       content: [],
       commentId: "",
       post: null,
@@ -91,7 +90,6 @@ export default {
   },
 
   async created() {
-    //on va créer un code qui va creée comment en appuyant sur entrée
     let handleEnter = (e) => {
       if (e.key === "Entrée" || e.key === "Enter") {
         e.preventDefault();
@@ -100,27 +98,8 @@ export default {
     };
 
     document.addEventListener("keydown", handleEnter);
-
-    //une methode axios pour recupérer les éléments d'une array
-    //function fetchAllComments
-    /*await axios
-      .get(
-        `http://localhost:4000/api/post/${this.$route.params.postId}/comment`,
-        {
-          headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      )
-      .then((response) => {
-        this.comments = response.data;
-        console.warn(response);
-      });*/
   },
   methods: {
-
-    //foncion pour enlever le nom de l'image d'input
     clear() {
       const input = this.$refs.fileUpload;
       input.type = "text";
@@ -128,7 +107,7 @@ export default {
     },
 
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0]; //it will take the first element in the event>target>files
+      this.selectedFile = event.target.files[0];
       console.warn(this.selectedFile);
     },
 
@@ -149,16 +128,14 @@ export default {
             }
           )
           .then((response) => {
-            (this.content = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
-            this.$emit("refetchPost"); //change dynamiquement le contenu
+            (this.content = ""), console.warn(response);
+            this.$emit("refetchPost");
           });
 
-        //contrairement à l'opération dans CommentsMyPost
         this.clear();
       } else if (!this.selectedFile && this.content) {
         const formData = new FormData();
-        //formData.append("image", this.message.image, this.message.image.name);
+
         formData.append("body", this.content);
         await axios
           .put(
@@ -172,17 +149,13 @@ export default {
             }
           )
           .then((response) => {
-            (this.content = ""),
-              //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.content = ""), console.warn(response);
             this.$emit("refetchPost");
           });
-
-        //contrairement à l'opération dans CommentsMyPost
       } else if (this.selectedFile && !this.content) {
         const formData = new FormData();
         formData.append("image", this.selectedFile, this.selectedFile.name);
-        //formData.append("body", this.form.body);
+
         await axios
           .put(
             `http://localhost:4000/api/post/${this.$route.params.postId}/comment/${comment.id}`,
@@ -203,16 +176,14 @@ export default {
           )
           .then((response) => {
             console.warn(response);
-            this.$emit("refetchPost"); //change dynamiquement le contenu. On refetch symplement le post ici
+            this.$emit("refetchPost");
           });
 
-        //contrairement à l'opération dans CommentsMyPost
         this.clear();
       }
       this.$emit("refetchPost");
     },
 
-    //deleting comment
     async deleteComment(comment) {
       await axios
         .delete(
@@ -225,11 +196,10 @@ export default {
           }
         )
         .then((response) => {
-          //this.comments = response.data;
           console.warn(response);
           this.$emit("refetchPost");
         });
-        this.$emit("refetchPost");
+      this.$emit("refetchPost");
     },
 
     async fetchComment(comment) {

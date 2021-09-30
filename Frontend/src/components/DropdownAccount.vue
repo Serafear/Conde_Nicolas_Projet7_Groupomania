@@ -18,15 +18,12 @@
         px-1
         items-center
         bg-pinky-1
-        text-ox-bl
-         text-sm
+        text-ox-bl text-sm
       "
     >
       <p>{{ nom }}</p>
-      <!--le z-index ne peut pas marcher sans une position ex: relative-->
       <font-awesome-icon icon="caret-down" class="text-2xl mt-1" />
     </button>
-    <!--on va crée un bouton qui va fermer le toggle si on appui en dehors du toggle-->
     <button
       id="exit-button"
       v-if="isOpen"
@@ -34,17 +31,25 @@
       tabindex="-1"
       class="fixed inset-0 h-full w-full bg-ox-bl bg-opacity-50 cursor-default"
     ></button>
-    <!--le tab index -1 rend le bouton inaccessible aux manips clavier et inset fait top mid left right-0-->
     <div
       v-if="isOpen"
       class="
         right-0
         absolute
-        mt-2 -mr-5
-        md:-mr-1 lg:-mr-4 xl:-mr-0
-        lg:p-2 md:p-2
-        lg:w-48 md:w-28 md:h-14
-        w-28 h-24 flex justify-center items-center
+        mt-2
+        -mr-5
+        md:-mr-1
+        lg:-mr-4
+        xl:-mr-0
+        lg:p-2
+        md:p-2
+        lg:w-48
+        md:w-28 md:h-14
+        w-28
+        h-24
+        flex
+        justify-center
+        items-center
         bg-white
         rounded-xl
         overflow-hidden
@@ -68,15 +73,15 @@
           >
         </li>
 
-        <li class=" text-ox-bl md:hidden lg:hidden">
+        <li class="text-ox-bl md:hidden lg:hidden">
           <router-link to="/"
             >Accueil <font-awesome-icon icon="home" class="lg:text-2xl"
           /></router-link>
         </li>
-        <li class=" text-ox-bl md:hidden lg:hidden">
+        <li class="text-ox-bl md:hidden lg:hidden">
           Messages <font-awesome-icon icon="comment-alt" class="lg:text-2xl" />
         </li>
-        <li class=" text-ox-bl md:hidden lg:hidden">
+        <li class="text-ox-bl md:hidden lg:hidden">
           Notifications <font-awesome-icon icon="bell" class="lg:text-2xl" />
         </li>
       </ul>
@@ -104,7 +109,6 @@ export default {
 
     document.addEventListener("keydown", handleEscape);
 
-    //this.$once ne marche plus avec vue 3
     this.$emit("hook:beforeDestroy", () => {
       document.removeEventListener("keydown", handleEscape);
     });

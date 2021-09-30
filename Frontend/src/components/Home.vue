@@ -3,7 +3,6 @@
 
   <div id="mainPage" class="container lg:flex lg:justify-center mt-5">
     <div class="flex flex-col lg:flex-row lg:w-11/12 lg:h-c50">
-      <!--ici, quelques exemples d'images de profile pour si jamais le systeme est implémenté-->
       <section
         id="sidebar"
         class="
@@ -34,7 +33,6 @@
             lg:overscroll-y-contain lg:overflox-y-scroll lg:overflow-y-visible
           "
         >
-          <!--for the overscroll, all elements need to have a width-->
           <li
             class="
               flex flex-col
@@ -151,8 +149,6 @@
             class="flex flex-col"
             :class="{ Ulowner: Post.user.id == $store.state.userId }"
           >
-            <!--On va rajouter une classe conditionnelle: owner qu'on pourra styliser-->
-
             <li
               id="Posts"
               :class="{ owner: Post.user.id == $store.state.userId }"
@@ -174,7 +170,6 @@
                 break-normal
               "
             >
-              <!--vu qu'on utilisera le props id dans OnePost.vue-->
               <router-link :to="'/post/' + Post.id">
                 <div class="flex flex-col mb-5 lg:w-5/6 px-1">
                   <span>{{ Post.user.nom }}</span>
@@ -183,9 +178,6 @@
                     Post.body
                   }}</span>
                   <span class="md:mt-2">{{ Post.user.createdAt }}</span>
-                  <!--le v-if de la div cache le button supprimer et modifier 
-               pour peux dont le post.user.id est différent du userId dans le
-               store -->
                 </div>
               </router-link>
               <div
@@ -199,14 +191,12 @@
                   supprimer
                 </button>
 
-                <!--vu qu'on utilisera le props id dans OnePost.vue-->
                 <router-link
                   :to="'/post/' + Post.id"
                   class="bg-rufous w-3/4"
                 ></router-link>
               </div>
               <div class="flex flex-row justify-end gap-2">
-                <!--vu qu'on utilisera le props id dans OnePost.vue-->
                 <router-link
                   :to="'/post/' + Post.id"
                   class="router bg-lav-bl w-3/4"
@@ -219,7 +209,6 @@
           </ul>
         </div>
 
-        <!--cette div s'occupe de l'envoi de l'image et du message-->
         <div
           id="barre-envoi"
           class="
@@ -244,7 +233,6 @@
             accept="image/*"
             @change="onFileSelected"
           />
-          <!--boutons pour choisir le fichier et modifier, dans commentaires-->
           <div class="flex flex-row gap-3 w-full lg:w-3/6 items-center">
             <p class="text-ox-bl text-sm md:text-lg">Choisir un fichier :</p>
             <button
@@ -312,30 +300,20 @@ export default {
       selectedFile: null,
     };
   },
-  computed: {
-    //Posts() {
-    //return this.$store.state.Posts; //permet d'afficher l'array en combiaison avec v-for
-    //},
-  },
   async created() {
-    //ici l'évènement est monté dont l'opération est finie. Il faut donc rafraichir la page ou créer une fonction qui rafraichit la page dès que le token est touché/ voir aussi eventBus comme solution plus légère
     let token = localStorage.getItem("token");
     if (!token) {
       this.$router.push({ name: "SignUp" });
     }
-    //this.$store.dispatch("fetchAllPosts");
-    //const myPost = this.Posts.map((mypost)=>mypost.id); //exemple de maping
-    //console.warn(myPost);
-    this.fetchPosts(); //rappelle ici
+
+    this.fetchPosts();
   },
   methods: {
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0]; //it will take the first element in the event>target>files
-      //to see the path in the console i can console warn(event)  (its for image upload)
+      this.selectedFile = event.target.files[0];
       console.warn(this.selectedFile);
     },
 
-    //create post
     async createPost() {
       if (this.selectedFile && this.message.body) {
         const formData = new FormData();
@@ -350,14 +328,13 @@ export default {
             },
           })
           .then((response) => {
-            (this.message.body = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.message.body = ""), console.warn(response);
             this.fetchPosts();
           });
       } else if (!this.selectedFile && this.message.body) {
         const formData = new FormData();
         formData.append("body", this.message.body);
-        //formData.append("image", this.selectedFile, this.selectedFile.name);
+
         formData.append("userId", this.$store.state.userId);
         await axios
           .post("http://localhost:4000/api/post", formData, {
@@ -367,13 +344,12 @@ export default {
             },
           })
           .then((response) => {
-            (this.message.body = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.message.body = ""), console.warn(response);
             this.fetchPosts();
           });
       } else if (this.selectedFile && !this.message.body) {
         const formData = new FormData();
-        //formData.append("body", this.comment.body);
+
         formData.append("image", this.selectedFile, this.selectedFile.name);
         formData.append("userId", this.$store.state.userId);
         await axios
@@ -398,10 +374,7 @@ export default {
       this.fetchPosts();
     },
 
-    //deleting post
     async deletePost(Post) {
-      //here ex: samy can only delete samy's messages
-
       const postId = await Post.id;
       const deletePost = await axios.delete(
         "http://localhost:4000/api/post/" + postId,
@@ -416,7 +389,6 @@ export default {
       this.fetchPosts();
     },
 
-    //ne maîtrisant pas encore les mutations, je vais créer un nouvel appel api pour les posts
     async fetchPosts() {
       await axios
         .get("http://localhost:4000/api/post", {

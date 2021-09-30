@@ -1,5 +1,4 @@
 <template>
-  <!--this part is for the reaction of the Home page, the props is :allPost:Post-->
   <div
     v-if="myHomeReact[0]"
     class="flex flex-row justify-center items-center gap-4"
@@ -37,7 +36,9 @@
         <font-awesome-icon
           icon="thumbs-down"
           class="t-down text-2xl text-rufous"
-          :style="[myHomeReact[0].isLike == 'dislike' ? { color: '#EFEA5A' } : {}]"
+          :style="[
+            myHomeReact[0].isLike == 'dislike' ? { color: '#EFEA5A' } : {},
+          ]"
         />
       </button>
       <span>{{ resultHomeDislike.length }}</span>
@@ -88,7 +89,7 @@ export default {
   props: ["allPost"],
   data() {
     return {
-      id: this.$props.allPost.id, //important
+      id: this.$props.allPost.id,
       responseHomeData: [],
       isLike: {
         Liked: "like",
@@ -120,7 +121,6 @@ export default {
     },
   },
   methods: {
-    //Home page Reactions
     async getAllHomeReactions(allPost) {
       const allPostId = allPost.id;
       await axios
@@ -156,7 +156,6 @@ export default {
           console.warn(reponse);
           this.getAllHomeReactions(allPost);
         });
-      //this.$emit("refetchPost"); //change dynamiquement le contenu
     },
     async createDislike(allPost) {
       const allPostId = allPost.id;
@@ -179,7 +178,6 @@ export default {
           console.warn(reponse);
           this.getAllHomeReactions(allPost);
         });
-      //this.$emit("refetchPost"); //change dynamiquement le contenu
     },
   },
 };

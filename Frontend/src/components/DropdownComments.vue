@@ -1,84 +1,64 @@
 <template>
-<!--contenu texte, image, modif-->
   <div class="flex flex-col gap-3 border border-black items-center md:w-60">
-    <img class="flex w-40 mt-2" :src="homecomment.image"/>
+    <img class="flex w-40 mt-2" :src="homecomment.image" />
     <div class="border border-rufous p-2 w-40 flex justify-center">
-      <span> {{homecomment.body}}</span>
+      <span> {{ homecomment.body }}</span>
     </div>
     <div class="flex flex-row gap-3 mb-2">
-            <button
-              class="
-                text-black
-                border border-solid border-black
-                px-1
-                rounded-md
-              "
-              @click="isShown = !isShown"
-            >
-              modifier
-            </button>
-            <button
-              class="
-                text-black
-                border border-solid border-black
-                px-1
-                rounded-md
-              "
-              @click="deleteComment(homecomment)"
-            >
-              supprimer
-            </button>
-          </div>
-          <text-area-autosize-small
-            class="
-              box-border
-              w-40
-              border border-black
-              shadow-lg
-              text-black
-            "
-            name="input"
-            v-if="isShown"
-            v-model:comment="content"
-          />
-          <input
-            type="file"
-            ref="fileUpload"
-            class="hidden"
-            accept="image/*"
-            @change="onFileSelected"
-          />
-          <!--boutons pour choisir le fichier et modifier, dans commentaires-->
-          <div class="flex flex-row gap-3 items-center" v-if="isShown">
-            <p>Choisir fichier :</p>
-            <button
-              class="
-                flex flex-row
-                gap-2
-                bg-an-br
-                p-1
-                border border-dotted border-rufous
-                animate-pulse
-              "
-              @click="$refs.fileUpload.click()"
-            >
-              <font-awesome-icon
-                icon="file-image"
-                class="file-image text-2xl text-rufous"
-              />
-            </button>
+      <button
+        class="text-black border border-solid border-black px-1 rounded-md"
+        @click="isShown = !isShown"
+      >
+        modifier
+      </button>
+      <button
+        class="text-black border border-solid border-black px-1 rounded-md"
+        @click="deleteComment(homecomment)"
+      >
+        supprimer
+      </button>
+    </div>
+    <text-area-autosize-small
+      class="box-border w-40 border border-black shadow-lg text-black"
+      name="input"
+      v-if="isShown"
+      v-model:comment="content"
+    />
+    <input
+      type="file"
+      ref="fileUpload"
+      class="hidden"
+      accept="image/*"
+      @change="onFileSelected"
+    />
+    <div class="flex flex-row gap-3 items-center" v-if="isShown">
+      <p>Choisir fichier :</p>
+      <button
+        class="
+          flex flex-row
+          gap-2
+          bg-an-br
+          p-1
+          border border-dotted border-rufous
+          animate-pulse
+        "
+        @click="$refs.fileUpload.click()"
+      >
+        <font-awesome-icon
+          icon="file-image"
+          class="file-image text-2xl text-rufous"
+        />
+      </button>
 
-            <input
-              type="button"
-              class="confirmer border border-black px-1 bg-an-br rounded-md"
-              value="confirmer"
-              @click.prevent="modifyComment(homecomment), (this.isShown = false)"
-              tabindex="-1"
-            />
-          </div>
+      <input
+        type="button"
+        class="confirmer border border-black px-1 bg-an-br rounded-md"
+        value="confirmer"
+        @click.prevent="modifyComment(homecomment), (this.isShown = false)"
+        tabindex="-1"
+      />
+    </div>
   </div>
-
- 
 </template>
 
 <script>
@@ -104,23 +84,17 @@ export default {
       selectedFile: null,
     };
   },
-  computed: {
-    //Comments() {
-     //return this.$store.state.Comments;
-    //},
-  },
+
   created() {
-    //this.$store.dispatch("fetchAllComments");
     this.fetchHomeComments();
-    
   },
   methods: {
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0]; //it will take the first element in the event>target>files
+      this.selectedFile = event.target.files[0];
       console.warn(this.selectedFile);
     },
-     
-     async fetchHomeComments(){
+
+    async fetchHomeComments() {
       await axios
         .get(
           `http://localhost:4000/api/post/${this.$props.homecomment.id}/comment`,
@@ -135,10 +109,8 @@ export default {
           this.comment = response.data;
           console.warn(response);
         });
-      
     },
-  
-    //pourquoi ça fonctionne avec this.$route ? alors qu'il n'y a rien dans l'url ? 
+
     async modifyComment(homecomment) {
       if (this.selectedFile && this.content) {
         const formData = new FormData();
@@ -156,16 +128,11 @@ export default {
             }
           )
           .then((response) => {
-            (this.content = ""), //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.content = ""), console.warn(response);
             this.$emit("refetchPost");
           });
-
-        //contrairement à l'opération dans CommentsMyPost
-        //this.clear();
       } else if (!this.selectedFile && this.content) {
         const formData = new FormData();
-        //formData.append("image", this.message.image, this.message.image.name);
         formData.append("body", this.content);
         await axios
           .put(
@@ -179,17 +146,13 @@ export default {
             }
           )
           .then((response) => {
-            (this.content = ""),
-              //enlève le contenu du mssage dans l'input
-              console.warn(response);
+            (this.content = ""), console.warn(response);
             this.$emit("refetchPost");
           });
-
-        //contrairement à l'opération dans CommentsMyPost
       } else if (this.selectedFile && !this.content) {
         const formData = new FormData();
         formData.append("image", this.selectedFile, this.selectedFile.name);
-        //formData.append("body", this.form.body);
+
         await axios
           .put(
             `http://localhost:4000/api/post/${this.$route.params.postId}/comment/${homecomment.id}`,
@@ -212,15 +175,11 @@ export default {
             console.warn(response);
             this.$emit("refetchPost");
           });
-
-        //contrairement à l'opération dans CommentsMyPost
-        //this.clear();
       }
-      //this.$emit("refetchPost");
+
       this.$emit("refetchPost");
     },
 
-    //deleting comment
     async deleteComment(homecomment) {
       await axios
         .delete(
@@ -233,27 +192,11 @@ export default {
           }
         )
         .then((response) => {
-          //this.comments = response.data;
           console.warn(response);
           this.$emit("refetchPost");
-          //this.$emit("fetchPosts");
-          //this.$emit("fetchComments");
-          //this.fetchPosts();
-          //this.$store.commit("SET_POSTS");
-          //return this.$store.state.Posts;
-          //this.fetchHomeComments()
-          //return this.$store.state.Comments
         });
-        this.$emit("refetchPost");
-        //this.$emit("fetchPosts");
-        //this.$emit("fetchComments");
-        //this.fetchPosts();
-        //this.$store.commit("SET_POSTS");
-        //return this.$store.state.Posts;
-        //this.fetchHomeComments()
-        //return this.$store.state.Comments
+      this.$emit("refetchPost");
     },
-    
   },
 };
 </script>

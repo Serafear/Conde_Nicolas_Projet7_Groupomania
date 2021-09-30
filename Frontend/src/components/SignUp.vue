@@ -29,7 +29,6 @@
         class="sm:h-56"
         src="../assets/icon-above-font.png"
       />
-      <!--l'élément parent doit être en flex justify+item center-->
     </div>
     <section
       id="signup_form"
@@ -58,7 +57,6 @@
           md:mr-0 md:mb-0
         "
       >
-        <!--gap work with flex !!-->
         <input
           type="text"
           id="nom"
@@ -164,7 +162,7 @@
 </template>
 
 <script>
-import axios from "axios"; //npm install axios --save
+import axios from "axios";
 export default {
   name: "SignUp",
   data() {
@@ -188,7 +186,6 @@ export default {
         }
       );
 
-      //console.warn("signup", this.nom, this.prenom, this.email, this.password); //warn replace the log ?
       console.warn(fetchSignUp);
       if (fetchSignUp.status == 201) {
         this.$router.push({ name: "Login" });

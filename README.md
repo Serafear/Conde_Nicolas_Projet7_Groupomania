@@ -1,6 +1,6 @@
 
 # Conde_Nicolas_Projet7_Groupomania: Backend
-> Le backend est l'api gérant les actions sur la base de donnée ainsi que la reconnaissance utilisateur
+
 
 ## Plan
 * [Information générale]
@@ -21,10 +21,8 @@ Ainsi que la mise en place de réactions : like et dislike pour les posts.
 
 
 ## Technologies Utilisées
-- node.js 7.11.2
-- mysql: 2.18.1,
-- mysql2: 2.2.5,
-- sequelize: 6.6.5  
+- [node.js 7.11.2](https://nodejs.org/en/download/)
+- [mysql: 2.18.1](https://www.mysql.com/fr/downloads/),
 
 
 ## Fonctionnalités
@@ -39,21 +37,21 @@ Ainsi que la mise en place de réactions : like et dislike pour les posts.
 
 ## Setup
 Dépendances: 
-- "bcrypt": "^5.0.1",
-- "cookie-parser": "^1.4.5",
-- "dotenv": "^10.0.0",
-- "express": "^4.17.1",
-- "express-rate-limit": "^5.3.0",
-- "helmet": "^4.6.0",
-- "hpp": "^0.2.3",
-- "jsonwebtoken": "^8.5.1",
-- "multer": "^1.4.2",
-- "mysql": "^2.18.1",
-- "mysql2": "^2.2.5",
-- "password-validator": "^5.1.1",
-- "save": "^2.4.0",
-- "sequelize": "^6.6.5",
-- "xss-clean": "^0.1.1"
+- bcrypt: 5.0.1,
+- cookie-parser: 1.4.5,
+- dotenv: 10.0.0,
+- express": "^4.17.1,
+- express-rate-limit: 5.3.0,
+- helmet: 4.6.0,
+- hpp: 0.2.3,
+- jsonwebtoken: 8.5.1,
+- multer: 1.4.2,
+- mysql: 2.18.1,
+- mysql2: 2.2.5,
+- password-validator: 5.1.1,
+- save: 2.4.0,
+- sequelize: 6.6.5,
+- xss-clean: 0.1.1
 
 - Vous aurez besoin d'un package manage comme [NPM](https://docs.npmjs.com/cli/v6/commands/npm-install)
 - Clonez le repo git: backend  
@@ -106,8 +104,8 @@ Ainsi que la mise en place de réactions : like et dislike pour les posts.
 
 
 ## Technologies Utilisées
-- vue 3.0.5
-- tailwind 2.2.7
+- [vue 3.0.5](https://github.com/vuejs/docs)
+- [tailwind 2.2.7](https://tailwindcss.com/docs/installation)
 
 
 ## Fonctionnalités
@@ -122,20 +120,20 @@ Ainsi que la mise en place de réactions : like et dislike pour les posts.
 
 ## Setup
 Dépendances: 
-- "@fortawesome/fontawesome-svg-core": "^1.2.36",
-- "@fortawesome/free-solid-svg-icons": "^5.15.4",
-- "@fortawesome/vue-fontawesome": "^3.0.0-4",
-- "axios": "^0.21.1",
-- "stylelint-config-recommended": "^5.0.0",
-- "vue": "^3.0.5",
-- "vue-router": "^4.0.11",
-- "vuex": "^4.0.2"
-- "@vitejs/plugin-vue": "^1.3.0",
-- "@vue/compiler-sfc": "^3.0.5",
-- "autoprefixer": "^10.3.1",
-- "postcss": "^8.3.6",
-- "tailwindcss": "^2.2.7",
-- "vite": "^2.4.4"
+- @fortawesome/fontawesome-svg-core: 1.2.36,
+- @fortawesome/free-solid-svg-icons: 5.15.4,
+- @fortawesome/vue-fontawesome: 3.0.0-4,
+- axios: 0.21.1,
+- stylelint-config-recommended: 5.0.0,
+- vue: 3.0.5,
+- vue-router: 4.0.11,
+- vuex: 4.0.2,
+- @vitejs/plugin-vue: 1.3.0,
+- @vue/compiler-sfc: 3.0.5,
+- autoprefixer: 10.3.1,
+- postcss: 8.3.6,
+- tailwindcss: 2.2.7,
+- vite: 2.4.4
 
 - Vous aurez besoin d'un package manage comme [NPM](https://docs.npmjs.com/cli/v6/commands/npm-install)
 - Clonez le repo git: frontend  

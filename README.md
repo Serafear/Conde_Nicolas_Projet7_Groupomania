@@ -171,3 +171,34 @@ ex: async refreshPost() {
 ## Contact
 Crée par Condé Nicolas, contact: nicolas.conde@hotmail.fr
 
+##ENGLISH
+
+# Conde_Nicolas_Projet7_Groupomania: Backend
+
+
+## Plan
+* [General information]
+* [Technologies Used]
+* [Features]
+* [Installation]
+* [Usage]
+* [Areas for Improvement]
+* [Contact]
+
+
+
+## General Information
+- The project is an internal chat system for the groupomania company
+- It must allow the sending, modification, deletion of posts and comments; registration, connection and modification of user data.
+As well as setting up reactions: like and dislike for posts. 
+
+
+
+## Technologies Used
+- [node.js 7.11.2](https://nodejs.org/en/download/)
+- [mysql: 2.18.1](https://www.mysql.com/en/downloads/),
+
+
+## Features
+- User: account creation, account connection, token issue, information changes;
+
